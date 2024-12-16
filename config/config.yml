@@ -1,0 +1,22 @@
+AppDebug: false   # 设置程序所处的模式，debug=true 调试模式，日志优先显示在控制台， debug=false 非调试模式，将写入日志文件
+
+HttpServer:
+  Web:
+    Port: ":8888"                 #后端应用类端口,注意前面有冒号
+  AllowCrossDomain: true  #是否允许跨域，默认 允许，更多关于跨域的介绍从参考：https://www.yuque.com/xiaofensinixidaouxiang/bkfhct/kxddzd
+  
+redis:
+  host: 127.0.0.1
+  port: 6379
+  db: 0
+  password:
+
+Logs:
+  GinLogName: "/storage/logs/gin.log"                  #设置 gin 框架的接口访问日志
+  GoSkeletonLogName: "/storage/logs/goskeleton.log"    #设置GoSkeleton项目骨架运行时日志文件名，注意该名称不要与上一条重复 ,避免和 gin 框架的日志掺杂一起，造成混乱。
+  TextFormat: "json"                                #记录日志的格式，参数选项：console、json ， console 表示一般的文本格式
+  TimePrecision: "millisecond"                         #记录日志时，相关的时间精度，该参数选项：second  、 millisecond ， 分别表示 秒 和 毫秒 ,默认为毫秒级别
+  MaxSize: 10                                           #每个日志的最大尺寸(以MB为单位）， 超过该值，系统将会自动进行切割
+  MaxBackups: 7                                        #保留旧日志最大个数
+  MaxAge: 15                                           #保留旧日志最大天数
+  Compress: false   
