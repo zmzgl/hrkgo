@@ -3,12 +3,14 @@ package router
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"hrkGo/app/service/sys_service"
 	"hrkGo/router/routes"
 	"hrkGo/utils/global/variable"
+	"log"
 	"net/http"
 )
 
-// 优雅重启/停止服务器
+// RunServer 优雅重启/停止服务器
 func RunServer() {
 
 	//2加载gin路由
@@ -24,7 +26,7 @@ func RunServer() {
 	}
 }
 
-// 路由初始化
+// InitRouter 路由初始化
 func InitRouter() *gin.Engine {
 	//初始化路由
 	r := gin.Default()
@@ -38,5 +40,11 @@ func InitRouter() *gin.Engine {
 	routes.RegisterDictRoutes(system)
 
 	// 初始化字典
+
+	// 系统启动时初始化字典
+	if err := sys_service.InitDict(); err != nil {
+		log.Fatal("初始化字典失败:", err)
+	}
+
 	return r
 }

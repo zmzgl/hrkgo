@@ -3,7 +3,7 @@ package sys_service
 import (
 	"github.com/mojocn/base64Captcha"
 	"hrkGo/utils/global/variable"
-	"hrkGo/utils/redis"
+	"hrkGo/utils/redis/cache_redis"
 	"image/color"
 	"time"
 )
@@ -13,7 +13,7 @@ type CaptchaCurd struct {
 
 const CAPTCHA = "captcha:"
 
-var store base64Captcha.Store = redis.RedisStore{
+var store base64Captcha.Store = cache_redis.CacheStore{
 	Client:   variable.Redis,
 	ExpireIn: time.Minute * 2,
 }

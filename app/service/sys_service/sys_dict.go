@@ -4,12 +4,11 @@ import (
 	"encoding/json"
 	"hrkGo/app/model/sys_model"
 	"hrkGo/utils/global/variable"
-	"hrkGo/utils/redis"
+	"hrkGo/utils/redis/dict_redis"
 )
 
-var dictStore = redis.RedisStore{
-	Client:   variable.Redis,
-	ExpireIn: 0,
+var dictStore = dict_redis.DictStore{
+	Client: variable.Redis,
 }
 
 type DictCurd struct {
@@ -26,11 +25,12 @@ type DictWithData struct {
 }
 
 // GetAllDictWithData 获取所有字典及其数据
-func (d DictCurd) GetAllDictWithData() {
+func (d DictCurd) GetAllDictWithData() (err error) {
 	var result []sys_model.SysDictRedis
-	err := variable.GormDbMysql.Model(&sys_model.SysDictRedis{}).
+	err = variable.GormDbMysql.Model(&sys_model.SysDictRedis{}).
 		Preload("Child", "status = ?", "0").
 		Find(&result).Error
+	_, err = dictStore.DeleteByPrefixBatch("sys_dict", 100)
 	if err != nil {
 
 	}
@@ -49,5 +49,15 @@ func (d DictCurd) GetAllDictWithData() {
 			//return fmt.Errorf("save to redis failed: %v", err)
 		}
 	}
+	return err
+}
 
+// InitDict 初始化字典数据
+func InitDict() error {
+
+	err := DictCurd{}.GetAllDictWithData()
+	if err != nil {
+		return err
+	}
+	return nil
 }
