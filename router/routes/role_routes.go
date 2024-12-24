@@ -1,0 +1,21 @@
+package routes
+
+import (
+	"github.com/gin-gonic/gin"
+	"hrkGo/app/controllers/c_system"
+	"hrkGo/app/middleware"
+)
+
+func RegisterRoleRoutes(r *gin.RouterGroup) {
+
+	roleController := c_system.RoleController{}
+
+	role := r.Group("/role")
+	{
+		authRouter := role.Group("").Use(middleware.JWTAuth())
+		{
+			authRouter.GET("/list", roleController.GetRoleList)
+		}
+	}
+
+}

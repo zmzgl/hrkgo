@@ -1,4 +1,4 @@
-AppDebug: false   # 设置程序所处的模式，debug=true 调试模式，日志优先显示在控制台， debug=false 非调试模式，将写入日志文件
+AppDebug: true   # 设置程序所处的模式，debug=true 调试模式，日志优先显示在控制台， debug=false 非调试模式，将写入日志文件
 
 HttpServer:
   Web:
@@ -10,6 +10,16 @@ redis:
   port: 6379
   db: 0
   password:
+
+jwt:
+  secret: 5XwmkSDVxsmhwtcHBnhJzVb85esxD6rb
+  jwt_ttl: 43200
+  jwt_blacklist_grace_period: 10
+
+wechat:
+  MiniProgram:
+    appid: ""
+    secret: ""
 
 Logs:
   GinLogName: "/storage/logs/gin.log"                  #设置 gin 框架的接口访问日志

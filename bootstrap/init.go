@@ -5,7 +5,7 @@ import (
 	"hrkGo/utils/global/my_errors"
 	"hrkGo/utils/global/variable"
 	"hrkGo/utils/gorm_v2"
-	"hrkGo/utils/redis_config"
+	"hrkGo/utils/redis"
 	"hrkGo/utils/yml_config"
 	"hrkGo/utils/zap_factory"
 
@@ -46,7 +46,7 @@ func init() {
 
 	// 5.初始化全局日志句柄，并载入日志钩子处理函数
 	variable.ZapLog = zap_factory.CreateZapFactory(sys_log_hook.ZapLogHandler)
-	variable.Redis = redis_config.CreateRedisFactory()
+	variable.Redis = redis.CreateRedisFactory()
 
 	// 6.根据配置初始化 gorm mysql 全局 *gorm.Db
 	if variable.ConfigGormv2Yml.GetInt("Gormv2.Mysql.IsInitGlobalGormMysql") == 1 {

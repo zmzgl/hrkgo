@@ -3,8 +3,7 @@ package router
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"hrkGo/app/controllers/cSystem"
-	"hrkGo/app/middleware"
+	"hrkGo/router/routes"
 	"hrkGo/utils/global/variable"
 	"net/http"
 )
@@ -28,18 +27,16 @@ func RunServer() {
 // 路由初始化
 func InitRouter() *gin.Engine {
 	//初始化路由
-	router := gin.Default()
+	r := gin.Default()
 
-	////根据配置进行设置跨域
-	//if variable.ConfigYml.GetBool("HttpServer.AllowCrossDomain") {
+	v1 := r.Group("/api/v1")
 
-	router.Use(middleware.Cors())
-	//}
+	system := v1.Group("/system")
+	routes.RegisterOverallRoutes(v1)
+	routes.RegisterDeptRoutes(system)
+	routes.RegisterRoleRoutes(system)
+	routes.RegisterDictRoutes(system)
 
-	router.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello_world")
-	})
-
-	router.GET("/captchaImage", cSystem.CaptchaImage)
-	return router
+	// 初始化字典
+	return r
 }
