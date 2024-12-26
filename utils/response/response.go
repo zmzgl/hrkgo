@@ -31,7 +31,7 @@ func SuccessToken(c *gin.Context, msg string, data interface{}) {
 	ReturnTokenJson(c, http.StatusOK, consts.CurdStatusOkCode, msg, data)
 }
 
-// SuccessToken 直接返回成功token
+// SuccessInfo 直接返回成功token
 func SuccessInfo(c *gin.Context, msg string, permissions []string, roles []string, user interface{}) {
 	ReturnTokenInfo(c, http.StatusOK, consts.CurdStatusOkCode, msg, permissions, roles, user)
 }

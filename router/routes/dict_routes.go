@@ -15,7 +15,7 @@ func RegisterDictRoutes(r *gin.RouterGroup) {
 		authRouter := role.Group("").Use(middleware.JWTAuth())
 		{
 			authRouter.GET("/list", DictController.DictList)
-			//authRouter.GET("/refreshCache", DictController.refreshCache)
+			authRouter.DELETE("/refreshCache", DictController.RefreshCache)
 
 		}
 	}

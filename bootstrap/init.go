@@ -8,9 +8,7 @@ import (
 	"hrkGo/utils/redis"
 	"hrkGo/utils/yml_config"
 	"hrkGo/utils/zap_factory"
-
 	"log"
-
 	"os"
 )
 

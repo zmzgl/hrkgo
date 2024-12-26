@@ -18,3 +18,12 @@ func (d DictController) DictList(c *gin.Context) {
 	//}
 	response.Success(c, "查询成功", nil)
 }
+
+// RefreshCache 字典列表
+func (d DictController) RefreshCache(c *gin.Context) {
+
+	err := d.DictService.GetAllDictWithData()
+	if err != nil {
+	}
+	response.Success(c, "刷新成功", nil)
+}
