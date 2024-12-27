@@ -2,6 +2,22 @@ package sys_model
 
 import "time"
 
+type Params struct {
+	BeginTime string `form:"beginTime"`
+	EndTime   string `form:"endTime"`
+}
+
+// DictListRequest 字典列表请求参数
+type DictListRequest struct {
+	DictName  string `form:"dictName"`          // 字典名称
+	DictType  string `form:"dictType"`          // 字典类型
+	Status    string `form:"status"`            // 状态（0正常 1停用）
+	BeginTime string `form:"params[beginTime]"` // 使用 form 标签接收嵌套字段
+	EndTime   string `form:"params[endTime]"`   // 使用 form 标签接收嵌套字段
+	PageNum   int    `form:"pageNum"`
+	PageSize  int    `form:"pageSize"`
+}
+
 type SysDictRedis struct {
 	DictId     int64         `gorm:"primary_key;auto_increment;column:dict_id" json:"dictId"`          // 字典主键
 	DictName   string        `gorm:"column:dict_name;size:100;default:''" json:"dictName"`             // 字典名称

@@ -18,7 +18,7 @@ type Controller struct {
 	JwtCurd     sys_service.JwtCurd
 }
 
-// 接收小程序登录请求的参数
+// WxLoginRequest 接收小程序登录请求的参数
 type WxLoginRequest struct {
 	Code string `json:"code" binding:"required"`
 }
