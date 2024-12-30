@@ -2,7 +2,7 @@ package sys_service
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"hrkGo/app/model/sys_model"
 	"hrkGo/utils/global/variable"
 	"hrkGo/utils/redis/dict_redis"
@@ -55,8 +55,6 @@ func (d DictCurd) GetDictList(req sys_model.DictListRequest) (list []sys_model.S
 		// 将结束日期调整到当天的最后一刻
 		end = end.Add(24 * time.Hour).Add(-time.Second)
 
-		fmt.Println("err", start, end)
-
 		db = db.Where("create_time BETWEEN ? AND ?",
 			start,
 			end)
@@ -74,6 +72,46 @@ func (d DictCurd) GetDictList(req sys_model.DictListRequest) (list []sys_model.S
 	err = db.Offset(offset).Limit(req.PageSize).Find(&list).Error
 
 	return list, total, err
+}
+
+// InsertDictData 获取所有字典及其数据
+func (d DictCurd) InsertDictData(dict *sys_model.SysDictType) (err error) {
+
+	// 同时检查字典名称和字典类型
+	var count int64
+	err = variable.GormDbMysql.Model(&sys_model.SysDictType{}).
+		Where("dict_type = ? OR dict_name = ?", dict.DictType, dict.DictName).
+		Count(&count).Error
+
+	if err != nil {
+		return err
+	}
+
+	if count > 0 {
+		return errors.New("字典名称或字典类型已存在")
+	}
+
+	return variable.GormDbMysql.Create(dict).Error
+}
+
+// DeleteDictDataByIds 获取所有字典及其数据
+func (d DictCurd) DeleteDictDataByIds(dictIds []int64) (err error) {
+	return variable.GormDbMysql.Where("dict_id IN ?", dictIds).Delete(&sys_model.SysDictType{}).Error
+}
+
+// SelectDictDataByType 获取所有字典及其数据
+func (d DictCurd) SelectDictDataByType(dictType string) (jsonData []sys_model.SysDictData, err error) {
+	dictJson := dictStore.Get("sys_dict:"+dictType, false)
+	// 正确的写法
+	var dictData []sys_model.SysDictData
+	err = json.Unmarshal([]byte(dictJson), &dictData)
+	return dictData, err
+}
+
+// SelectDictDataById 获取所有字典及其数据
+func (d DictCurd) SelectDictDataById(dictType string) (dictData sys_model.SysDictType, err error) {
+	err = variable.GormDbMysql.Where("dict_id = ?", dictType).First(&dictData).Error
+	return dictData, err
 }
 
 // RefreshCache 获取所有字典及其数据

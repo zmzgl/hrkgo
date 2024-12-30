@@ -8,6 +8,8 @@ const (
 	CurdStatusOkMsg  string = "Success"
 
 	Authenticationfailed string = "登录授权失效"
+	SQLERROR                    = "查询失败,请联系管理员"
+	SUCCESS                     = "查询成功"
 
 	/** Layout组件标识 */
 	LAYOUT string = "Layout"
@@ -25,6 +27,14 @@ const (
 	/** ParentView组件标识 */
 	PARENT_VIEW                  string = "ParentView"
 	CaptchaCheckParamsInvalidMsg string = "校验验证码：提交的参数无效，请检查 【验证码ID、验证码值】 提交时的键名是否与配置项一致"
+
+	// SnowFlake 雪花算法
+	StartTimeStamp = int64(1483228800000)             //开始时间截 (2017-01-01)
+	SequenceBits   = uint(12)                         //序列所占的位数
+	SequenceMask   = int64(-1 ^ (-1 << SequenceBits)) //
+	MachineIdShift = SequenceBits                     //机器id左移位数
+	TimestampShift = SequenceBits + MachineIdBits     //时间戳左移位数
+	MachineIdBits  = uint(10)                         //机器id所占的位数
 
 	CaptchaCheckFailMsg string = "验证码校验失败"
 )

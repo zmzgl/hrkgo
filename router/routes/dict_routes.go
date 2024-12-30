@@ -10,12 +10,20 @@ func RegisterDictRoutes(r *gin.RouterGroup) {
 
 	DictController := c_system.DictController{}
 
-	role := r.Group("/dict/type")
+	role := r.Group("/dict")
 	{
-		authRouter := role.Group("").Use(middleware.JWTAuth())
+		authTypeRouter := role.Use(middleware.JWTAuth())
 		{
-			authRouter.GET("/list", DictController.DictList)
-			authRouter.DELETE("/refreshCache", DictController.RefreshCache)
+			authTypeRouter.GET("/type/list", DictController.DictList)
+			authTypeRouter.GET("/type/:dictId", DictController.SelectDictDataById)
+			authTypeRouter.POST("/type", DictController.InsertDictData)
+			authTypeRouter.PUT("/type", DictController.UpdateDictData)
+
+			authTypeRouter.DELETE("/type/:dictIds", DictController.DeleteDictDataByIds)
+
+			authTypeRouter.DELETE("/type/refreshCache", DictController.RefreshCache)
+
+			authTypeRouter.GET("/data/type/:dictType", DictController.SelectDictDataByType)
 
 		}
 	}

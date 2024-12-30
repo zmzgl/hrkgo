@@ -6,6 +6,7 @@ import (
 	"hrkGo/utils/global/variable"
 	"hrkGo/utils/gorm_v2"
 	"hrkGo/utils/redis"
+	"hrkGo/utils/snow_flake"
 	"hrkGo/utils/yml_config"
 	"hrkGo/utils/zap_factory"
 	"log"
@@ -41,6 +42,9 @@ func init() {
 	// config>gorm_v2.yml 启动文件变化监听事件
 	variable.ConfigGormv2Yml = variable.ConfigYml.Clone("gorm_v2")
 	variable.ConfigGormv2Yml.ConfigFileChangeListen()
+
+	// 7.雪花算法全局变量
+	variable.SnowFlake = snow_flake.CreateSnowflakeFactory()
 
 	// 5.初始化全局日志句柄，并载入日志钩子处理函数
 	variable.ZapLog = zap_factory.CreateZapFactory(sys_log_hook.ZapLogHandler)

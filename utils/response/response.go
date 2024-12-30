@@ -26,6 +26,11 @@ func Success(c *gin.Context, msg string, data interface{}) {
 	ReturnJson(c, http.StatusOK, consts.CurdStatusOkCode, msg, data)
 }
 
+// SuccessNil 直接返回成功
+func SuccessNil(c *gin.Context, msg string) {
+	ReturnNil(c, http.StatusOK, consts.CurdStatusOkCode, msg)
+}
+
 // SuccessToken 直接返回成功token
 func SuccessToken(c *gin.Context, msg string, data interface{}) {
 	ReturnTokenJson(c, http.StatusOK, consts.CurdStatusOkCode, msg, data)
@@ -91,5 +96,12 @@ func ReturnJson(Context *gin.Context, httpCode int, dataCode int, msg string, da
 		"code": dataCode,
 		"msg":  msg,
 		"data": data,
+	})
+}
+
+func ReturnNil(Context *gin.Context, httpCode int, dataCode int, msg string) {
+	Context.JSON(httpCode, gin.H{
+		"code": dataCode,
+		"msg":  msg,
 	})
 }

@@ -5,6 +5,7 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"hrkGo/utils/global/my_errors"
+	"hrkGo/utils/snow_flake/snowflake_interf"
 	"hrkGo/utils/yml_config/ymlconfig_interf"
 	"log"
 	"os"
@@ -19,6 +20,9 @@ var (
 	EventDestroyPrefix = "Destroy_"            //  程序退出时需要销毁的事件前缀
 	ConfigKeyPrefix    = "Config_"             //  配置文件键值缓存时，键的前缀
 	DateFormat         = "2006-01-02 15:04:05" //  设置全局日期时间格式
+
+	//雪花算法全局变量
+	SnowFlake snowflake_interf.InterfaceSnowFlake
 
 	Redis *redis.Client
 	// 全局日志指针

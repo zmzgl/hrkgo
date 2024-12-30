@@ -17,8 +17,6 @@ func (m *MenuController) GetRouters(c *gin.Context) {
 
 	if err != nil {
 
-		return
-
 	}
 	response.Success(c, "查询成功", RouterVo)
 }
