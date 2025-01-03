@@ -58,6 +58,22 @@ func (m *MenuCurd) GetMenuTreeAll() ([]*MenuTree, error) {
 	return trees, nil
 }
 
+// SelectMenuList
+func (m *MenuCurd) SelectMenuList(userId uint64) ([]*sys_model.RouterVo, error) {
+	//List<SysMenu> menuList = nil;
+	//// 管理员显示所有菜单信息
+	//if sys_model.IsAdmin(int64(userId)) {
+	//	menuList = menuMapper.selectMenuList(menu);
+	//}
+	//else
+	//{
+	//	menu.getParams().put("userId", userId);
+	//	menuList = menuMapper.selectMenuListByUserId(menu);
+	//}
+	//return menuList;
+	return nil, nil
+}
+
 func (m *MenuCurd) BuildMenus(menus []*MenuTree) []*sys_model.RouterVo {
 	routers := make([]*sys_model.RouterVo, 0)
 	for _, menu := range menus {
@@ -66,6 +82,7 @@ func (m *MenuCurd) BuildMenus(menus []*MenuTree) []*sys_model.RouterVo {
 
 		// 设置路由基本信息
 		router.Name = getRouteName(menu)
+		router.MenuType = menu.MenuType
 		router.Path = getRouterPath(menu)
 		router.Query = menu.Query
 		router.Component = getComponent(menu)
@@ -165,11 +182,7 @@ func isInnerLink(menu *MenuTree) bool {
 	return menu.IsFrame == consts.NO_FRAME && StringUtils.IsHttp(menu.Path)
 }
 
-/**
- * 内链域名特殊字符替换
- *
- * @return 替换后的内链域名
- */
+// isInnerLink 内链域名特殊字符替换 return 替换后的内链域名
 func innerLinkReplaceEach(path string) string {
 	return strings.NewReplacer(
 		"http://", "",

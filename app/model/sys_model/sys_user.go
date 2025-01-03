@@ -60,3 +60,9 @@ type SysUserInfo struct {
 func (SysUserInfo) TableName() string {
 	return "sys_user"
 }
+
+// IsAdmin 判断是不是超管
+func IsAdmin(userID int64) bool {
+	//return userID != nil && *userID == 1
+	return false
+}

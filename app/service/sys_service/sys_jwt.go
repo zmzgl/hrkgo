@@ -6,24 +6,31 @@ import (
 	"github.com/google/uuid"
 	"hrkGo/app/model/sys_model"
 	"hrkGo/utils/global/variable"
+	"hrkGo/utils/redis/token_redis"
 	"time"
 )
 
-var Secret = []byte(variable.ConfigYml.GetString("jwt.secret"))
+var Secret = []byte(variable.ConfigYml.GetString("token.secret"))
 
 type CustomClaims struct {
 	UserID uint `json:"user_id"`
 	jwt.RegisteredClaims
+	TokenId string
+}
+
+var tokenStore = token_redis.TokenStore{
+	Client: variable.Redis,
 }
 
 type JwtCurd struct {
 }
 
 func (r JwtCurd) GenerateTokenWithCustomClaims(user *sys_model.SysUser) (string, error) {
+	tokenId := uuid.NewString()
 	claims := CustomClaims{
 		UserID: uint(user.UserId),
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(variable.ConfigYml.GetInt("token.expireTime")) * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "api.GOHAR.com",
@@ -31,13 +38,19 @@ func (r JwtCurd) GenerateTokenWithCustomClaims(user *sys_model.SysUser) (string,
 			Audience:  jwt.ClaimStrings{"web-app"},
 			ID:        uuid.New().String(),
 		},
+		TokenId: tokenId,
+	}
+
+	err := tokenStore.SetWithExpire(tokenId, user, time.Duration(variable.ConfigYml.GetInt("token.expireTime"))*time.Minute)
+	if err != nil {
+		return "", err
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(Secret)
 }
 
-// 解析 JWT token
+// ParseToken 解析token
 func ParseToken(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return Secret, nil

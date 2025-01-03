@@ -12,7 +12,7 @@ func RegisterRoleRoutes(r *gin.RouterGroup) {
 
 	role := r.Group("/role")
 	{
-		authRouter := role.Group("").Use(middleware.JWTAuth())
+		authRouter := role.Use(middleware.JWTAuth())
 		{
 			authRouter.GET("/list", roleController.GetRoleList)
 		}

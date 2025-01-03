@@ -38,6 +38,7 @@ func InitRouter() *gin.Engine {
 	routes.RegisterDeptRoutes(system)
 	routes.RegisterRoleRoutes(system)
 	routes.RegisterDictRoutes(system)
+	routes.RegisterUserRoutes(system)
 
 	// 初始化字典
 

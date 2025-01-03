@@ -14,10 +14,14 @@ redis:
 SnowFlake:
   SnowFlakeMachineId: 2               #如果本项目同时部署在多台机器，并且需要同时使用该算法，请为每一台机器设置不同的ID，区间范围: [0,1023]
 
-jwt:
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
   secret: 5XwmkSDVxsmhwtcHBnhJzVb85esxD6rb
-  jwt_ttl: 43200
-  jwt_blacklist_grace_period: 10
+  # 令牌有效期（默认30分钟）
+  expireTime: 300
 
 wechat:
   MiniProgram:

@@ -20,3 +20,12 @@ func (m *MenuController) GetRouters(c *gin.Context) {
 	}
 	response.Success(c, "查询成功", RouterVo)
 }
+
+func (m *MenuController) DeptTree(c *gin.Context) {
+	//menus, err := m.MenuService.SelectMenuList(uint64(c.Keys["userId"].(uint)))
+	//if err != nil {
+	//
+	//}
+	//response.Success(c, "查询成功", menuService.buildMenuTreeSelect(menus))
+
+}

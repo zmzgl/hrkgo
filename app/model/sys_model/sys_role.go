@@ -6,11 +6,13 @@ import (
 
 // RoleListRequest 角色列表请求参数
 type RoleListRequest struct {
-	RoleName string `form:"roleName"`
-	Status   string `form:"status" `
-	RoleKey  string `form:"roleKey"`
-	PageNum  int    `form:"pageNum"`
-	PageSize int    `form:"pageSize"`
+	RoleName  string `form:"roleName"`
+	Status    string `form:"status" `
+	RoleKey   string `form:"roleKey"`
+	BeginTime string `form:"params[beginTime]"` // 使用 form 标签接收嵌套字段
+	EndTime   string `form:"params[endTime]"`   // 使用 form 标签接收嵌套字段
+	PageNum   int    `form:"pageNum"`
+	PageSize  int    `form:"pageSize"`
 }
 
 // SysRole 角色信息表

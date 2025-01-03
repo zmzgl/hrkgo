@@ -16,7 +16,7 @@ func RegisterOverallRoutes(r *gin.RouterGroup) {
 	r.POST("/login", overController.Login)
 	r.POST("/wxLogin", overController.WxLogin)
 
-	authRouter := r.Group("").Use(middleware.JWTAuth())
+	authRouter := r.Use(middleware.JWTAuth())
 	{
 		authRouter.GET("/getInfo", overController.Info)
 		authRouter.GET("/getRouters", menuController.GetRouters)

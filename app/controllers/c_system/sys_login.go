@@ -117,7 +117,7 @@ func (l *Controller) WxLogin(c *gin.Context) {
 // Info 个人信息
 func (l *Controller) Info(c *gin.Context) {
 
-	UserData, err := l.LoginModel.GetUserInfo(c.Keys["id"].(uint))
+	UserData, err := l.LoginModel.GetUserInfo(c.Keys["userId"].(uint))
 	if err != nil {
 		response.BusinessFail(c, err.Error())
 		return

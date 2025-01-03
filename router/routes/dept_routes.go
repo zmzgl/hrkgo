@@ -10,7 +10,7 @@ func RegisterDeptRoutes(r *gin.RouterGroup) {
 	DeptController := c_system.DeptController{}
 	dept := r.Group("/dept")
 	{
-		authRouter := dept.Group("").Use(middleware.JWTAuth())
+		authRouter := dept.Use(middleware.JWTAuth())
 		{
 			authRouter.GET("/list", DeptController.DeptList)
 		}

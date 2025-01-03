@@ -33,6 +33,7 @@ type RouterVo struct {
 	Name       string      `json:"name"`       //路由名字
 	Path       string      `json:"path"`       //路由地址
 	Hidden     bool        `json:"hidden"`     //否隐藏路由
+	MenuType   string      `json:"menuType"`   // 菜单类型（M目录 C菜单 F按钮）
 	Redirect   string      `json:"redirect"`   //重定向地址
 	Component  string      `json:"component"`  //组件地址
 	Query      string      `json:"query"`      //路由参数
