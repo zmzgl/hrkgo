@@ -29,6 +29,19 @@ func (m *SysMenu) TableName() string {
 	return "sys_menu"
 }
 
+type SelectSysMenu struct {
+	Name       string      `json:"name"`       //路由名字
+	Path       string      `json:"path"`       //路由地址
+	Hidden     bool        `json:"hidden"`     //否隐藏路由
+	MenuType   string      `json:"menuType"`   // 菜单类型（M目录 C菜单 F按钮）
+	Redirect   string      `json:"redirect"`   //重定向地址
+	Component  string      `json:"component"`  //组件地址
+	Query      string      `json:"query"`      //路由参数
+	AlwaysShow bool        `json:"alwaysShow"` //当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面
+	Meta       MetaVo      `json:"meta"`
+	Children   []*RouterVo `json:"children"`
+}
+
 type RouterVo struct {
 	Name       string      `json:"name"`       //路由名字
 	Path       string      `json:"path"`       //路由地址
@@ -47,4 +60,21 @@ type MetaVo struct {
 	Icon    string `json:"icon"`    //设置该路由的图标，对应路径src/assets/icons/svg
 	NoCache bool   `json:"noCache"` //设置为true，则不会被 <keep-alive>缓存
 	Link    string `json:"link"`    //重定向地址
+}
+
+// MenuTree 定义菜单树结构
+type MenuTree struct {
+	*SysMenu
+	Children []*MenuTree `json:"children"`
+}
+type TreeSelect struct {
+	Id       int64  `json:"id"`       //节点ID
+	Label    string `json:"label"`    //节点名称
+	Disabled bool   `json:"disabled"` //boolean
+}
+
+// SelectMenuTree 定义菜单树结构
+type SelectMenuTree struct {
+	*TreeSelect
+	Children []*TreeSelect `json:"children"`
 }

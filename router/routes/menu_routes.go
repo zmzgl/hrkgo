@@ -12,7 +12,7 @@ func RegisterMenuRoutes(r *gin.RouterGroup) {
 	{
 		authRouter := user.Use(middleware.JWTAuth())
 		{
-			authRouter.GET("/treeselect", MenuController.DeptTree)
+			authRouter.GET("/treeselect", MenuController.TreeSelect)
 		}
 	}
 }

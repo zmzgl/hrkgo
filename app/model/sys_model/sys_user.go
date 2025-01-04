@@ -63,6 +63,5 @@ func (SysUserInfo) TableName() string {
 
 // IsAdmin 判断是不是超管
 func IsAdmin(userID int64) bool {
-	//return userID != nil && *userID == 1
-	return false
+	return userID == 1
 }

@@ -10,7 +10,7 @@ type DeptCurd struct {
 
 // GeDeptList 获取部门树
 func (u *DeptCurd) GeDeptList(req sys_model.DeptListRequest) ([]*sys_model.SysDept, error) {
-	//err = variable.GormDbMysql.Where("open_id = ? and del_flag = 0", openId).First(&user).Error
+
 	query := variable.GormDbMysql.Model(&sys_model.SysDept{}).Where("del_flag = ?", "0")
 
 	// 添加查询条件
