@@ -6,7 +6,7 @@ import (
 
 // DeptListRequest 角色列表请求参数
 type DeptListRequest struct {
-	DeptName string `form:"dept_name"`
+	DeptName string `form:"deptName"`
 	Status   string `form:"status"`
 }
 

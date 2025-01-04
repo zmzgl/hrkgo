@@ -1,6 +1,7 @@
 package c_system
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"hrkGo/app/model/sys_model"
 	"hrkGo/app/service/sys_service"
@@ -18,6 +19,7 @@ func (d DeptController) DeptList(c *gin.Context) {
 		response.ValidateFail(c, response.GetErrorMsg(req, err))
 		return
 	}
+	fmt.Println(req)
 
 	list, err := d.DeptService.GeDeptList(req)
 	if err != nil {
