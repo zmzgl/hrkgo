@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type CaptchaCurd struct {
+type CaptService struct {
 }
 
 const CAPTCHA = "captcha:"
@@ -19,7 +19,7 @@ var store base64Captcha.Store = cache_redis.CacheStore{
 }
 
 // CaptMake 生成验证码
-func (c *CaptchaCurd) CaptMake() (id, b64s string, err error) {
+func (c *CaptService) CaptMake() (id, b64s string, err error) {
 	var driver base64Captcha.Driver
 	// 配置验证码信息
 	driverString := base64Captcha.DriverString{
@@ -53,7 +53,7 @@ func (c *CaptchaCurd) CaptMake() (id, b64s string, err error) {
 }
 
 // CaptVerify 验证captcha是否正确
-func (c *CaptchaCurd) CaptVerify(id string, capt string) bool {
+func (c *CaptService) CaptVerify(id string, capt string) bool {
 	key := CAPTCHA + id
 	if store.Verify(key, capt, false) {
 		return true

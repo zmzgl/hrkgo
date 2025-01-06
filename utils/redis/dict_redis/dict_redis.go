@@ -14,13 +14,11 @@ type DictStore struct {
 
 // SetWithExpire 设置临时存储(带过期时间)
 func (d *DictStore) SetWithExpire(key string, value interface{}, expiration time.Duration) error {
-
 	return d.Client.Set(redis2.Ctx, key, value, expiration).Err()
 }
 
 // Set 永久存储
 func (d *DictStore) Set(key string, value interface{}) error {
-
 	return d.Client.Set(redis2.Ctx, key, value, 0).Err()
 }
 

@@ -13,9 +13,18 @@ import (
 )
 
 type Controller struct {
-	LoginModel  sys_service.LoginCurd
-	CaptchaCurd sys_service.CaptchaCurd
-	JwtCurd     sys_service.JwtCurd
+	loginService sys_service.LoginService
+	CaptService  sys_service.CaptService
+	JwtCurd      sys_service.JwtService
+	MenuService  sys_service.MenuService
+}
+
+// 1. 直接创建并赋值
+func CreateTokenData(user *sys_model.SysUser, perms []string) sys_model.TokenData {
+	return sys_model.TokenData{
+		User:  user,
+		Perms: perms,
+	}
 }
 
 // WxLoginRequest 接收小程序登录请求的参数
@@ -25,7 +34,7 @@ type WxLoginRequest struct {
 
 // CaptchaImage 获取验证码
 func (l *Controller) CaptchaImage(c *gin.Context) {
-	id, b64s, err := l.CaptchaCurd.CaptMake()
+	id, b64s, err := l.CaptService.CaptMake()
 	if err != nil {
 		response.ValidateFail(c, "验证码接口异常")
 	}
@@ -41,20 +50,30 @@ func (l *Controller) Login(c *gin.Context) {
 		response.ValidateFail(c, response.GetErrorMsg(form, err))
 		return
 	}
-	if err := l.CaptchaCurd.CaptVerify(form.Uuid, form.Code); err != true {
-		response.ValidateFail(c, "验证码错误")
+	if err := l.CaptService.CaptVerify(form.Uuid, form.Code); err != true {
+		response.ValidateFail(c, consts.CAPTCGAERROR)
 		return
 	}
-	if user, err := l.LoginModel.Login(form); err != nil {
+	if user, err := l.loginService.Login(form); err != nil {
 		response.BusinessFail(c, err.Error())
 	} else {
-		token, err := l.JwtCurd.GenerateTokenWithCustomClaims(user)
+
+		perms := l.MenuService.SelectMenuPermsByUserId(user.UserId)
+
+		tokenData := CreateTokenData(user, perms)
+
+		token, err := l.JwtCurd.GenerateTokenWithCustomClaims(tokenData)
 		if err != nil {
 			response.BusinessFail(c, err.Error())
 			return
 		}
-		response.SuccessToken(c, "操作成功", token)
+		response.SuccessToken(c, consts.SUCCESS, token)
 	}
+}
+
+// Logout 管理端登录
+func (l *Controller) Logout(c *gin.Context) {
+	response.SuccessNil(c, consts.SUCCESS)
 }
 
 // WxLogin 微信登录
@@ -97,19 +116,19 @@ func (l *Controller) WxLogin(c *gin.Context) {
 		})
 		return
 	}
-	if user, err := l.LoginModel.GetOpenIdUser(wxResp.OpenID); err != nil {
+	if user, err := l.loginService.GetOpenIdUser(wxResp.OpenID); err != nil {
 		response.BusinessFail(c, err.Error())
 	} else {
 		if user.UserId == 0 {
 			response.Success(c, "操作成功", nil)
 			return
 		}
-		token, err := l.JwtCurd.GenerateTokenWithCustomClaims(user)
-		if err != nil {
-			response.BusinessFail(c, err.Error())
-			return
-		}
-		response.SuccessToken(c, "操作成功", token)
+		// token, err := l.JwtCurd.GenerateTokenWithCustomClaims(user)
+		// if err != nil {
+		//	response.BusinessFail(c, err.Error())
+		//	return
+		//}
+		// response.SuccessToken(c, "操作成功", token)
 	}
 
 }
@@ -117,7 +136,7 @@ func (l *Controller) WxLogin(c *gin.Context) {
 // Info 个人信息
 func (l *Controller) Info(c *gin.Context) {
 
-	UserData, err := l.LoginModel.GetUserInfo(c.Keys["userId"].(uint))
+	UserData, err := l.loginService.GetUserInfo(c.Keys["userId"].(uint))
 	if err != nil {
 		response.BusinessFail(c, err.Error())
 		return

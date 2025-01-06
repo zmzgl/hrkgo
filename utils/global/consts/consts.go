@@ -8,9 +8,12 @@ const (
 	CurdStatusOkMsg  string = "Success"
 
 	Authenticationfailed string = "登录授权失效"
-	SQLERROR                    = "查询失败,请联系管理员"
-	SUCCESS                     = "查询成功"
-
+	SQLERROR                    = "操作失败,请联系管理员"
+	SUCCESS                     = "操作成功"
+	CAPTCGAERROR                = "验证码错误或验证码已过期"
+	EXISTS                      = "用户不存在/密码错误"
+	BLOCKED                     = "用户已封禁，请联系管理员"
+	DISUSER                     = "密码输入错误5次，帐户锁定5分钟"
 	/** Layout组件标识 */
 	LAYOUT string = "Layout"
 	/** 路由名 */

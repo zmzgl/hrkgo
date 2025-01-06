@@ -22,26 +22,26 @@ var tokenStore = token_redis.TokenStore{
 	Client: variable.Redis,
 }
 
-type JwtCurd struct {
+type JwtService struct {
 }
 
-func (r JwtCurd) GenerateTokenWithCustomClaims(user *sys_model.SysUser) (string, error) {
+func (r JwtService) GenerateTokenWithCustomClaims(userData sys_model.TokenData) (string, error) {
 	tokenId := uuid.NewString()
 	claims := CustomClaims{
-		UserID: uint(user.UserId),
+		UserID: uint(userData.User.UserId),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(variable.ConfigYml.GetInt("token.expireTime")) * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "api.GOHAR.com",
-			Subject:   fmt.Sprintf("%d", user.UserId),
+			Subject:   fmt.Sprintf("%d", userData.User.UserId),
 			Audience:  jwt.ClaimStrings{"web-app"},
 			ID:        uuid.New().String(),
 		},
 		TokenId: tokenId,
 	}
 
-	err := tokenStore.SetWithExpire(tokenId, user, time.Duration(variable.ConfigYml.GetInt("token.expireTime"))*time.Minute)
+	err := tokenStore.SetWithExpire(tokenId, userData, time.Duration(variable.ConfigYml.GetInt("token.expireTime"))*time.Minute)
 	if err != nil {
 		return "", err
 	}

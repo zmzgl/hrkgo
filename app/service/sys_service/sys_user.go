@@ -1,4 +1,4 @@
 package sys_service
 
-type UserCurd struct {
+type UserService struct {
 }

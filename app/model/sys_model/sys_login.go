@@ -14,6 +14,6 @@ func (login Login) GetMessages() response.ValidatorMessages {
 		"Username.required": "账号不能为空",
 		"Password.required": "密码不能为空",
 		"Code.required":     "验证码不能为空",
-		"uuid.required":     "验证码id不能为空",
+		"Uuid.required":     "验证码id不能为空",
 	}
 }

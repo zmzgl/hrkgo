@@ -26,6 +26,47 @@ func (m *MenuService) BuildMenuTreeSelect(menus []*sys_model.SysMenu) (menuList 
 	return menuTrees
 }
 
+// SelectMenuPermsByUserId 用户权限列表
+func (m *MenuService) SelectMenuPermsByUserId(userId int64) (permsSet []string) {
+	perms, err := sys_repositories.MenuCrud.SelectMenuPermsByUserId(userId)
+	if err != nil {
+		return permsSet
+	}
+	permsSet = SplitPerms(perms)
+	return permsSet
+}
+
+// SplitPerms 工具函数：将权限字符串切片转换为去重后的权限集合
+func SplitPerms(perms []string) []string {
+	// 使用 map 来去重
+	permMap := make(map[string]struct{})
+
+	// 遍历权限
+	for _, perm := range perms {
+		// 判断非空
+		if strings.TrimSpace(perm) != "" {
+			// 分割权限字符串
+			splitPerms := strings.Split(perm, ",")
+			// 遍历分割后的权限
+			for _, p := range splitPerms {
+				// 去除首尾空格并添加到 map 中
+				trimmed := strings.TrimSpace(p)
+				if trimmed != "" {
+					permMap[trimmed] = struct{}{}
+				}
+			}
+		}
+	}
+
+	// 将 map 转换为切片
+	result := make([]string, 0, len(permMap))
+	for p := range permMap {
+		result = append(result, p)
+	}
+
+	return result
+}
+
 // GetMenuTreeAll 定义菜单树结构 一次性查询所有数据，然后组装树（推荐，性能更好
 func (m *MenuService) GetMenuTreeAll() ([]*sys_model.MenuTree, error) {
 

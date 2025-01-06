@@ -13,7 +13,7 @@ import (
 )
 
 type DictController struct {
-	DictService sys_service.DictCurd
+	DictService sys_service.DictService
 }
 
 // DictList 字典列表

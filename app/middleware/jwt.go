@@ -39,7 +39,7 @@ func JWTAuth() gin.HandlerFunc {
 		}
 		// 将用户信息存储在上下文中
 		c.Set("userId", claims.UserID)
-		c.Set("tokenId", claims.TokenId)
+		c.Set("tokenId", claims)
 		c.Next()
 	}
 }

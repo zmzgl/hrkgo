@@ -65,3 +65,8 @@ func (SysUserInfo) TableName() string {
 func IsAdmin(userID int64) bool {
 	return userID == 1
 }
+
+type TokenData struct {
+	User  *SysUser
+	Perms []string
+}

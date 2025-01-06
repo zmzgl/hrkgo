@@ -6,10 +6,10 @@ import (
 )
 
 type UserController struct {
-	UserService sys_service.UserCurd
+	UserService sys_service.UserService
 }
 
-// DeptList 部门列表
-func (d UserController) DeptList(c *gin.Context) {
-	
+// DeptTree 部门列表
+func (d UserController) DeptTree(c *gin.Context) {
+
 }

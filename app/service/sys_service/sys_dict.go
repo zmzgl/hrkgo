@@ -14,7 +14,7 @@ var dictStore = dict_redis.DictStore{
 	Client: variable.Redis,
 }
 
-type DictCurd struct {
+type DictService struct {
 }
 
 // DictWithData 定义返回结果的结构体
@@ -28,7 +28,7 @@ type DictWithData struct {
 }
 
 // GetDictList 获取字典分页
-func (d DictCurd) GetDictList(req sys_model.DictListRequest) (list []sys_model.SysDictType, total int64, err error) {
+func (d DictService) GetDictList(req sys_model.DictListRequest) (list []sys_model.SysDictType, total int64, err error) {
 
 	// 初始化数据库查询
 	db := variable.GormDbMysql.Model(&sys_model.SysDictType{})
@@ -76,7 +76,7 @@ func (d DictCurd) GetDictList(req sys_model.DictListRequest) (list []sys_model.S
 }
 
 // GetDictDataList 获取字典数据分页
-func (d DictCurd) GetDictDataList(req sys_model.DictListDataRequest) (list []sys_model.SysDictData, total int64, err error) {
+func (d DictService) GetDictDataList(req sys_model.DictListDataRequest) (list []sys_model.SysDictData, total int64, err error) {
 
 	db := variable.GormDbMysql.Model(&sys_model.SysDictData{})
 
@@ -107,7 +107,7 @@ func (d DictCurd) GetDictDataList(req sys_model.DictListDataRequest) (list []sys
 }
 
 // InsertDictData 获取所有字典及其数据
-func (d DictCurd) InsertDictData(dict *sys_model.SysDictType) (err error) {
+func (d DictService) InsertDictData(dict *sys_model.SysDictType) (err error) {
 
 	// 同时检查字典名称和字典类型
 	var count int64
@@ -127,7 +127,7 @@ func (d DictCurd) InsertDictData(dict *sys_model.SysDictType) (err error) {
 }
 
 // InsertDictDataValue 添加字典数据
-func (d DictCurd) InsertDictDataValue(dict *sys_model.SysDictData) (err error) {
+func (d DictService) InsertDictDataValue(dict *sys_model.SysDictData) (err error) {
 
 	// 同时检查字典名称和字典类型
 	var count int64
@@ -149,7 +149,7 @@ func (d DictCurd) InsertDictDataValue(dict *sys_model.SysDictData) (err error) {
 }
 
 // UpdateDictDataValue 更新字典数据
-func (d DictCurd) UpdateDictDataValue(dict sys_model.SysDictData) (err error) {
+func (d DictService) UpdateDictDataValue(dict sys_model.SysDictData) (err error) {
 
 	var count int64
 
@@ -219,7 +219,7 @@ func (d DictCurd) UpdateDictDataValue(dict sys_model.SysDictData) (err error) {
 }
 
 // UpdateDictData 更新字典
-func (d DictCurd) UpdateDictData(dict sys_model.SysDictType) (err error) {
+func (d DictService) UpdateDictData(dict sys_model.SysDictType) (err error) {
 
 	var count int64
 	err = variable.GormDbMysql.Model(&sys_model.SysDictType{}).
@@ -279,17 +279,17 @@ func (d DictCurd) UpdateDictData(dict sys_model.SysDictType) (err error) {
 }
 
 // DeleteDictDataByIds 获取所有字典及其数据
-func (d DictCurd) DeleteDictDataByIds(dictIds []int64) (err error) {
+func (d DictService) DeleteDictDataByIds(dictIds []int64) (err error) {
 	return variable.GormDbMysql.Where("dict_id IN ?", dictIds).Delete(&sys_model.SysDictType{}).Error
 }
 
 // DeleteDictDataByCodes 获取所有字典及其数据
-func (d DictCurd) DeleteDictDataByCodes(codeList []int64) (err error) {
+func (d DictService) DeleteDictDataByCodes(codeList []int64) (err error) {
 	return variable.GormDbMysql.Where("dict_code IN ?", codeList).Delete(&sys_model.SysDictData{}).Error
 }
 
 // SelectDictDataByType 获取所有字典及其数据
-func (d DictCurd) SelectDictDataByType(dictType string) (jsonData []sys_model.SysDictData, err error) {
+func (d DictService) SelectDictDataByType(dictType string) (jsonData []sys_model.SysDictData, err error) {
 	dictJson := dictStore.Get("sys_dict:"+dictType, false)
 	// 正确的写法
 	var dictData []sys_model.SysDictData
@@ -298,25 +298,25 @@ func (d DictCurd) SelectDictDataByType(dictType string) (jsonData []sys_model.Sy
 }
 
 // SelectDictDataById 获取字典详情
-func (d DictCurd) SelectDictDataById(dictType string) (dictTypeData sys_model.SysDictType, err error) {
+func (d DictService) SelectDictDataById(dictType string) (dictTypeData sys_model.SysDictType, err error) {
 	err = variable.GormDbMysql.Where("dict_id = ?", dictType).First(&dictTypeData).Error
 	return dictTypeData, err
 }
 
 // SelectDictDataByCode 获取字典数据详情
-func (d DictCurd) SelectDictDataByCode(dictCode string) (DictData sys_model.SysDictData, err error) {
+func (d DictService) SelectDictDataByCode(dictCode string) (DictData sys_model.SysDictData, err error) {
 	err = variable.GormDbMysql.Where("dict_code = ?", dictCode).First(&DictData).Error
 	return DictData, err
 }
 
 // OptionSelect 获取字典选择框列表
-func (d DictCurd) OptionSelect() (dictData []sys_model.SysDictType, err error) {
+func (d DictService) OptionSelect() (dictData []sys_model.SysDictType, err error) {
 	err = variable.GormDbMysql.Find(&dictData).Error
 	return dictData, err
 }
 
 // RefreshCache 获取所有字典及其数据
-func (d DictCurd) RefreshCache() (err error) {
+func (d DictService) RefreshCache() (err error) {
 	var result []sys_model.SysDictRedis
 	err = variable.GormDbMysql.Model(&sys_model.SysDictRedis{}).
 		Preload("Child", "status = ?", "0").
@@ -336,7 +336,7 @@ func (d DictCurd) RefreshCache() (err error) {
 }
 
 // RefreshCache 获取所有字典及其数据
-func (d DictCurd) setRedis(dict sys_model.SysDictRedis) (err error) {
+func (d DictService) setRedis(dict sys_model.SysDictRedis) (err error) {
 
 	// 将每个字典类型转换为 JSON
 	jsonData, err := json.Marshal(dict.Child)
@@ -358,7 +358,7 @@ func (d DictCurd) setRedis(dict sys_model.SysDictRedis) (err error) {
 // InitDict 初始化字典数据
 func InitDict() error {
 
-	err := DictCurd{}.RefreshCache()
+	err := DictService{}.RefreshCache()
 	if err != nil {
 		return err
 	}

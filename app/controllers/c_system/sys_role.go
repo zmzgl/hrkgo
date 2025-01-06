@@ -8,7 +8,7 @@ import (
 )
 
 type RoleController struct {
-	RoleService sys_service.RoleCurd
+	RoleService sys_service.RoleService
 }
 
 func (r *RoleController) GetRoleList(c *gin.Context) {
@@ -23,4 +23,14 @@ func (r *RoleController) GetRoleList(c *gin.Context) {
 
 	}
 	response.SuccessRow(c, "查询成功", list, total)
+}
+
+func (r *RoleController) SelectRoleDataById(c *gin.Context) {
+	//dictType := c.Param("dictId")
+	//dict, err := r.RoleService.SelectRoleDataById(dictType)
+	//if err != nil {
+	//	response.BusinessFail(c, consts.SQLERROR)
+	//	return
+	//}
+	//response.Success(c, consts.SUCCESS, dict)
 }

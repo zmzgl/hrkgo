@@ -15,12 +15,12 @@ func RegisterOverallRoutes(r *gin.RouterGroup) {
 	r.GET("/captchaImage", overController.CaptchaImage)
 	r.POST("/login", overController.Login)
 	r.POST("/wxLogin", overController.WxLogin)
+	r.POST("/logout", overController.Logout)
 
 	authRouter := r.Use(middleware.JWTAuth())
 	{
 		authRouter.GET("/getInfo", overController.Info)
 		authRouter.GET("/getRouters", menuController.GetRouters)
-
 	}
 
 }

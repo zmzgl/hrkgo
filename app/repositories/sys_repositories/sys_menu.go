@@ -26,3 +26,19 @@ func (m *menuCrud) GetMenuTreeAll() ([]*sys_model.SysMenu, error) {
 		Find(&menus).Error
 	return menus, err
 }
+
+// SelectMenuPermsByUserId 查询所有树状图
+func (m *menuCrud) SelectMenuPermsByUserId(userId int64) ([]string, error) {
+	var perms []string
+
+	err := variable.GormDbMysql.Model(&sys_model.SysMenu{}).
+		Distinct("m.perms").
+		Select("sys_menu.perms").
+		Joins("LEFT JOIN sys_role_menu rm ON sys_menu.menu_id = rm.menu_id").
+		Joins("LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id").
+		Joins("LEFT JOIN sys_role r ON r.role_id = ur.role_id").
+		Where("sys_menu.status = ? AND r.status = ? AND ur.user_id = ?", "0", "0", userId).
+		Find(&perms).Error
+
+	return perms, err
+}

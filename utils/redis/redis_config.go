@@ -6,6 +6,7 @@ import (
 	"hrkGo/utils/global/my_errors"
 	"hrkGo/utils/global/variable"
 	"log"
+	"time"
 )
 
 var Ctx = context.Background()
@@ -22,4 +23,23 @@ func CreateRedisFactory() *redis.Client {
 		return nil
 	}
 	return client
+}
+
+// GetInt 实现获取 captcha 的方法
+func GetInt(key string) int {
+	val, err := variable.Redis.Get(Ctx, key).Int()
+	if err != nil {
+		return 0
+	}
+	return val
+}
+
+// Set 设置临时存储(带过期时间)
+func Set(key string, value interface{}, expiration time.Duration) {
+	variable.Redis.Set(Ctx, key, value, expiration)
+}
+
+// Del 删除
+func Del(key string) {
+	variable.Redis.Del(Ctx, key)
 }
