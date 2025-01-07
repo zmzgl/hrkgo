@@ -26,13 +26,15 @@ func (m *MenuService) BuildMenuTreeSelect(menus []*sys_model.SysMenu) (menuList 
 	return menuTrees
 }
 
-// SelectMenuPermsByUserId 用户权限列表
-func (m *MenuService) SelectMenuPermsByUserId(userId int64) (permsSet []string) {
-	perms, err := sys_repositories.MenuCrud.SelectMenuPermsByUserId(userId)
-	if err != nil {
-		return permsSet
+// LoginSelectMenuPermsByUserId 用户权限列表
+func (m *MenuService) LoginSelectMenuPermsByUserId(userId int64) (permsSet []string) {
+	// 管理员拥有所有权限
+	if sys_model.IsAdmin(userId) {
+		permsSet = append(permsSet, "*:*:*")
+	} else {
+		perms, _ := sys_repositories.MenuCrud.SelectMenuPermsByUserId(userId)
+		permsSet = SplitPerms(perms)
 	}
-	permsSet = SplitPerms(perms)
 	return permsSet
 }
 
@@ -128,8 +130,10 @@ func (m *MenuService) BuildMenus(menus []*sys_model.MenuTree) []*sys_model.Route
 		}
 		if StringUtils.IsNotEmpty(menu.Children) && consts.TYPE_DIR == menu.MenuType {
 			router.AlwaysShow = true
-			router.Redirect = "noRedirect"
 			//router.setChildren(buildMenus(cMenus))
+		}
+		if menu.IsFrame == "1" {
+			router.Redirect = "noRedirect"
 		}
 
 		// 处理子菜单

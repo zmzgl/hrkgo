@@ -29,8 +29,7 @@ const (
 	/** InnerLink组件标识 */
 	INNER_LINK string = "InnerLink"
 	/** ParentView组件标识 */
-	PARENT_VIEW                  string = "ParentView"
-	CaptchaCheckParamsInvalidMsg string = "校验验证码：提交的参数无效，请检查 【验证码ID、验证码值】 提交时的键名是否与配置项一致"
+	PARENT_VIEW string = "ParentView"
 
 	// SnowFlake 雪花算法
 	StartTimeStamp = int64(1483228800000)             //开始时间截 (2017-01-01)
@@ -40,5 +39,4 @@ const (
 	TimestampShift = SequenceBits + MachineIdBits     //时间戳左移位数
 	MachineIdBits  = uint(10)                         //机器id所占的位数
 
-	CaptchaCheckFailMsg string = "验证码校验失败"
 )

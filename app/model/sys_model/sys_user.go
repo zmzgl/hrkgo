@@ -67,6 +67,6 @@ func IsAdmin(userID int64) bool {
 }
 
 type TokenData struct {
-	User  *SysUser
+	User  *SysUserInfo
 	Perms []string
 }

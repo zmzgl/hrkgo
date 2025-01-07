@@ -64,7 +64,7 @@ func (u *LoginService) GetOpenIdUser(openId string) (user *sys_model.SysUser, er
 }
 
 // GetUserInfo 获取用户信息
-func (u *LoginService) GetUserInfo(id uint) (user *sys_model.SysUserInfo, err error) {
+func (u *LoginService) GetUserInfo(id int64) (user *sys_model.SysUserInfo, err error) {
 	err = variable.GormDbMysql.Preload("Dept").Preload("Roles").Where("user_id = ? and del_flag = 0", id).First(&user).Error
 	return user, err
 }

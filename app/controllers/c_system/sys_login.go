@@ -20,7 +20,7 @@ type Controller struct {
 }
 
 // 1. 直接创建并赋值
-func CreateTokenData(user *sys_model.SysUser, perms []string) sys_model.TokenData {
+func CreateTokenData(user *sys_model.SysUserInfo, perms []string) sys_model.TokenData {
 	return sys_model.TokenData{
 		User:  user,
 		Perms: perms,
@@ -57,11 +57,9 @@ func (l *Controller) Login(c *gin.Context) {
 	if user, err := l.loginService.Login(form); err != nil {
 		response.BusinessFail(c, err.Error())
 	} else {
-
-		perms := l.MenuService.SelectMenuPermsByUserId(user.UserId)
-
-		tokenData := CreateTokenData(user, perms)
-
+		perms := l.MenuService.LoginSelectMenuPermsByUserId(user.UserId)
+		UserData, _ := l.loginService.GetUserInfo(user.UserId)
+		tokenData := CreateTokenData(UserData, perms)
 		token, err := l.JwtCurd.GenerateTokenWithCustomClaims(tokenData)
 		if err != nil {
 			response.BusinessFail(c, err.Error())
@@ -71,9 +69,11 @@ func (l *Controller) Login(c *gin.Context) {
 	}
 }
 
-// Logout 管理端登录
-func (l *Controller) Logout(c *gin.Context) {
-	response.SuccessNil(c, consts.SUCCESS)
+// Info 个人信息
+func (l *Controller) Info(c *gin.Context) {
+	permissions := sys_service.GetUserData(c.Keys["tokenId"].(string))
+	roles := []string{"admin"}
+	response.SuccessInfo(c, "操作成功", permissions.Perms, roles, permissions.User)
 }
 
 // WxLogin 微信登录
@@ -133,16 +133,7 @@ func (l *Controller) WxLogin(c *gin.Context) {
 
 }
 
-// Info 个人信息
-func (l *Controller) Info(c *gin.Context) {
-
-	UserData, err := l.loginService.GetUserInfo(c.Keys["userId"].(uint))
-	if err != nil {
-		response.BusinessFail(c, err.Error())
-		return
-	}
-	permissions := []string{"*:*:*"}
-	roles := []string{"admin"}
-	response.SuccessInfo(c, "操作成功",
-		permissions, roles, UserData)
+// Logout 管理端登录
+func (l *Controller) Logout(c *gin.Context) {
+	response.SuccessNil(c, consts.SUCCESS)
 }
