@@ -8,6 +8,7 @@ const (
 	CurdStatusOkMsg  string = "Success"
 
 	Authenticationfailed string = "登录授权失效"
+	Forbidden            string = "没有访问权限"
 	SQLERROR                    = "操作失败,请联系管理员"
 	SUCCESS                     = "操作成功"
 	CAPTCGAERROR                = "验证码错误或验证码已过期"

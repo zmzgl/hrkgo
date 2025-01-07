@@ -66,3 +66,9 @@ func ParseToken(tokenString string) (*CustomClaims, error) {
 
 	return nil, err
 }
+
+// GetUserData 获取
+func GetUserData(tokenString string) (tokenData sys_model.TokenData) {
+	tokenData = tokenStore.Get(tokenString)
+	return tokenData
+}

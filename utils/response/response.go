@@ -65,6 +65,11 @@ func TokenFail(c *gin.Context) {
 	Fail(c, http.StatusUnauthorized, consts.Authenticationfailed)
 }
 
+// TokenForbidden 未授权访问
+func TokenForbidden(c *gin.Context) {
+	Fail(c, http.StatusForbidden, consts.Forbidden)
+}
+
 // Fail 响应失败 ErrorCode 不为 0 表示失败
 func Fail(c *gin.Context, errorCode int, msg string) {
 	c.JSON(http.StatusOK, Response{

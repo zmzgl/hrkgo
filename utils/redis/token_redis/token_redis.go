@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis/v8"
+	"hrkGo/app/model/sys_model"
 	"hrkGo/utils/global/variable"
 	redis2 "hrkGo/utils/redis"
 	"time"
@@ -23,19 +24,11 @@ func (d *TokenStore) SetWithExpire(key string, value interface{}, expiration tim
 	return d.Client.Set(redis2.Ctx, "login_tokens:"+key, jsonString, expiration).Err()
 }
 
-// Get 实现获取 captcha 的方法
-func (d *TokenStore) Get(key string, clear bool) string {
-	val, err := variable.Redis.Get(redis2.Ctx, key).Result()
-	if err != nil {
-		fmt.Println(err)
-		return ""
-	}
-	if clear {
-		err := variable.Redis.Del(redis2.Ctx, key).Err()
-		if err != nil {
-			fmt.Println(err)
-			return ""
-		}
-	}
-	return val
+// Get 实现获取 TokenData
+func (d *TokenStore) Get(key string) (person sys_model.TokenData) {
+	val, _ := variable.Redis.Get(redis2.Ctx, "login_tokens:"+key).Result()
+	// 准备一个 Person 结构体变量来接收数据
+	// 将 JSON 转换为结构体
+	_ = json.Unmarshal([]byte(val), &person)
+	return person
 }
