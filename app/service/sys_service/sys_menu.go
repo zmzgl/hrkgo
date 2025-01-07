@@ -128,10 +128,10 @@ func (m *MenuService) BuildMenus(menus []*sys_model.MenuTree) []*sys_model.Route
 			NoCache: menu.IsCache == 1,
 			Link:    ternary(menu.Path),
 		}
-		if StringUtils.IsNotEmpty(menu.Children) && consts.TYPE_DIR == menu.MenuType {
-			router.AlwaysShow = true
-			//router.setChildren(buildMenus(cMenus))
-		}
+		//if StringUtils.IsNotEmpty(menu.Children) && consts.TYPE_DIR == menu.MenuType {
+		//	router.AlwaysShow = true
+		//	//router.setChildren(buildMenus(cMenus))
+		//}
 		if menu.IsFrame == "1" {
 			router.Redirect = "noRedirect"
 		}
