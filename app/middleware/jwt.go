@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"hrkGo/app/model/sys_model"
 	"hrkGo/app/service/sys_service"
 	"hrkGo/utils/global/variable"
 	"hrkGo/utils/response"
@@ -47,6 +48,10 @@ func JWTAuth() gin.HandlerFunc {
 // PermissionMiddleware 权限控制中间件
 func PermissionMiddleware(requiredPermission string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		if sys_model.IsAdmin(int64(c.Keys["userId"].(uint))) {
+			c.Next()
+			return
+		}
 		// 从 Redis 获取该用户的权限
 		permissions := sys_service.GetUserData(c.Keys["tokenId"].(string))
 		exists := contains(permissions.Perms, requiredPermission) // 返回 true

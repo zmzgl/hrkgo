@@ -20,6 +20,54 @@ func (m *MenuService) SelectMenuList(userId uint64) (menuList []*sys_model.SysMe
 	return menuList, err
 }
 
+// SelectMenuById 获取菜单下拉树列表
+func (m *MenuService) SelectMenuById(menuId string) (menuData sys_model.SysMenu, err error) {
+	menuData, err = sys_repositories.MenuCrud.SelectMenuById(menuId)
+	return menuData, err
+}
+
+// HasChildByMenuId 查询是否有子菜单
+func (m *MenuService) HasChildByMenuId(menuId string) bool {
+	count := sys_repositories.MenuCrud.HasChildByMenuId(menuId)
+	return count > 0
+}
+
+// CheckMenuExistRole 查询菜单是否存在角色
+//
+// Parameters:
+//   - menuId: 菜单ID
+//
+// Returns:
+//   - bool: true表示菜单被角色使用，false表示菜单未被角色使用
+func (m *MenuService) CheckMenuExistRole(menuId string) bool {
+	count := sys_repositories.RomeMenuCrud.CheckMenuExistRole(menuId)
+	return count > 0
+}
+
+// InsertMenu 新增菜单
+func (m *MenuService) InsertMenu(menu *sys_model.SysMenu) (err error) {
+	return sys_repositories.MenuCrud.InsertMenu(menu)
+}
+
+// CheckMenuNameUnique 查询是否有同名菜单
+func (m *MenuService) CheckMenuNameUnique(menu sys_model.SysMenu) (exists bool) {
+	menuData, exists := sys_repositories.MenuCrud.CheckMenuNameUnique(menu)
+	if exists && menuData.MenuId == menu.MenuId {
+		return false
+	}
+	return exists
+}
+
+// UpdateMenu 修改
+func (m *MenuService) UpdateMenu(menu *sys_model.SysMenu) (err error) {
+	return sys_repositories.MenuCrud.UpdateMenu(menu)
+}
+
+// DeleteMenuById 删除
+func (m *MenuService) DeleteMenuById(menuId string) (err error) {
+	return sys_repositories.MenuCrud.DeleteMenuById(menuId)
+}
+
 // BuildMenuTreeSelect 下拉树结构列表
 func (m *MenuService) BuildMenuTreeSelect(menus []*sys_model.SysMenu) (menuList []*sys_model.SelectMenuTree) {
 	menuTrees := buildMenuTree(menus)
@@ -36,6 +84,16 @@ func (m *MenuService) LoginSelectMenuPermsByUserId(userId int64) (permsSet []str
 		permsSet = SplitPerms(perms)
 	}
 	return permsSet
+}
+
+// IsFace 是否外链
+func (m *MenuService) IsFace(menu sys_model.SysMenu) (status bool) {
+	if menu.IsFrame == "0" && ternary(menu.Path) != "" {
+		return true
+	} else if menu.IsFrame == "1" {
+		return true
+	}
+	return false
 }
 
 // SplitPerms 工具函数：将权限字符串切片转换为去重后的权限集合
@@ -71,17 +129,13 @@ func SplitPerms(perms []string) []string {
 
 // GetMenuTreeAll 定义菜单树结构 一次性查询所有数据，然后组装树（推荐，性能更好
 func (m *MenuService) GetMenuTreeAll() ([]*sys_model.MenuTree, error) {
-
 	menus, err := sys_repositories.MenuCrud.GetMenuTreeAll()
-
 	if err != nil {
 		return nil, err
 	}
-
 	// 转换为map，方便查找
-	menuMap := make(map[int64]*sys_model.MenuTree)
+	menuMap := make(map[string]*sys_model.MenuTree)
 	var trees []*sys_model.MenuTree
-
 	// 先转换为MenuTree对象
 	for _, menu := range menus {
 		menuMap[menu.MenuId] = &sys_model.MenuTree{
@@ -89,11 +143,10 @@ func (m *MenuService) GetMenuTreeAll() ([]*sys_model.MenuTree, error) {
 			Children: make([]*sys_model.MenuTree, 0),
 		}
 	}
-
 	// 组装树
 	for _, menu := range menus {
 		tree := menuMap[menu.MenuId]
-		if menu.ParentId == 0 {
+		if menu.ParentId == "0" {
 			// 根节点
 			trees = append(trees, tree)
 		} else {
@@ -125,7 +178,7 @@ func (m *MenuService) BuildMenus(menus []*sys_model.MenuTree) []*sys_model.Route
 		router.Meta = sys_model.MetaVo{
 			Title:   menu.MenuName,
 			Icon:    menu.Icon,
-			NoCache: menu.IsCache == 1,
+			NoCache: menu.IsCache == "1",
 			Link:    ternary(menu.Path),
 		}
 		//if StringUtils.IsNotEmpty(menu.Children) && consts.TYPE_DIR == menu.MenuType {
@@ -138,10 +191,10 @@ func (m *MenuService) BuildMenus(menus []*sys_model.MenuTree) []*sys_model.Route
 
 		// 处理子菜单
 		if len(menu.Children) > 0 {
-			if menu.MenuType == "M" && len(menu.Children) == 1 {
-				router.AlwaysShow = false
-			} else {
+			if menu.MenuType == "M" && len(menu.Children) > 0 {
 				router.AlwaysShow = true
+			} else {
+				router.AlwaysShow = false
 			}
 
 			// 递归处理子菜单
@@ -158,7 +211,7 @@ func (m *MenuService) BuildMenus(menus []*sys_model.MenuTree) []*sys_model.Route
 
 // buildMenuTree 构建菜单树 - 使用 MenuTree 结构
 func buildMenuTree(menus []*sys_model.SysMenu) []*sys_model.SelectMenuTree {
-	menuMap := make(map[uint]*sys_model.SelectMenuTree, len(menus))
+	menuMap := make(map[string]*sys_model.SelectMenuTree, len(menus))
 	var roots []*sys_model.SelectMenuTree
 
 	// 第一次遍历：转换为 SelectMenuTree 并建立映射关系
@@ -171,18 +224,18 @@ func buildMenuTree(menus []*sys_model.SysMenu) []*sys_model.SelectMenuTree {
 			},
 			Children: make([]*sys_model.TreeSelect, 0),
 		}
-		menuMap[uint(menu.MenuId)] = tree
+		menuMap[menu.MenuId] = tree
 
 		// 如果是根节点
-		if menu.ParentId == 0 {
+		if menu.ParentId == "0" {
 			roots = append(roots, tree)
 		}
 	}
 
 	// 第二次遍历：建立父子关系
 	for _, menu := range menus {
-		if menu.ParentId != 0 {
-			if parent, exists := menuMap[uint(menu.ParentId)]; exists {
+		if menu.ParentId != "0" {
+			if parent, exists := menuMap[menu.ParentId]; exists {
 				childNode := &sys_model.TreeSelect{
 					Id:       menu.MenuId,
 					Label:    menu.MenuName,
@@ -209,7 +262,7 @@ func getComponent(menu *sys_model.MenuTree) string {
 	component := consts.LAYOUT
 	if StringUtils.IsBlank(menu.Component) {
 		component = menu.Component
-	} else if StringUtils.IsEmptyStr(menu.Component) && menu.ParentId != 0 && isInnerLink(menu) {
+	} else if StringUtils.IsEmptyStr(menu.Component) && menu.ParentId != "0" && isInnerLink(menu) {
 		component = consts.INNER_LINK
 	} else if StringUtils.IsEmptyStr(menu.Component) && isParentView(menu) {
 		component = consts.PARENT_VIEW
@@ -220,7 +273,7 @@ func getComponent(menu *sys_model.MenuTree) string {
 
 // isParentView 是否为parent_view组件
 func isParentView(menu *sys_model.MenuTree) bool {
-	return menu.ParentId != 0 && consts.TYPE_DIR == menu.MenuType
+	return menu.ParentId != "0" && consts.TYPE_DIR == menu.MenuType
 }
 
 // getRouteName 获取路由名称
@@ -236,11 +289,11 @@ func getRouteName(menu *sys_model.MenuTree) string {
 func getRouterPath(menu *sys_model.MenuTree) string {
 	routerPath := menu.Path
 	// 内链打开外网方式
-	if menu.ParentId != 0 && isInnerLink(menu) {
+	if menu.ParentId != "0" && isInnerLink(menu) {
 		routerPath = innerLinkReplaceEach(routerPath)
 	}
 	// 非外链并且是一级目录（类型为目录）
-	if 0 == menu.ParentId && consts.TYPE_DIR == menu.MenuType && consts.NO_FRAME == menu.IsFrame {
+	if "0" == menu.ParentId && consts.TYPE_DIR == menu.MenuType && consts.NO_FRAME == menu.IsFrame {
 		routerPath = "/" + menu.Path
 	} else if isMenuFrame(menu) {
 		// 非外链并且是一级目录（类型为菜单）
@@ -251,7 +304,7 @@ func getRouterPath(menu *sys_model.MenuTree) string {
 
 // isMenuFrame 是否为菜单内部跳转
 func isMenuFrame(menu *sys_model.MenuTree) bool {
-	return menu.ParentId == 0 && consts.TYPE_MENU == menu.MenuType && menu.IsFrame == consts.NO_FRAME
+	return menu.ParentId == "0" && consts.TYPE_MENU == menu.MenuType && menu.IsFrame == consts.NO_FRAME
 }
 
 // isInnerLink 是否为内链组件

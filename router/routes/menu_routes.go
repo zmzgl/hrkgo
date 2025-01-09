@@ -13,6 +13,12 @@ func RegisterMenuRoutes(r *gin.RouterGroup) {
 		authRouter := user.Use(middleware.JWTAuth())
 		{
 			authRouter.GET("/treeselect", MenuController.TreeSelect)
+			authRouter.Use(middleware.PermissionMiddleware("system:menu:query")).GET("/list", MenuController.SelectMenuList)
+			authRouter.Use(middleware.PermissionMiddleware("system:menu:query")).GET("/:menuId", MenuController.SelectMenuById)
+			authRouter.Use(middleware.PermissionMiddleware("system:menu:add")).POST("", MenuController.InsertMenu)
+			authRouter.Use(middleware.PermissionMiddleware("system:menu:edit")).PUT("", MenuController.UpdateMenu)
+			authRouter.Use(middleware.PermissionMiddleware("system:menu:remove")).DELETE("/:menuId", MenuController.DeleteMenuById)
+
 		}
 	}
 }

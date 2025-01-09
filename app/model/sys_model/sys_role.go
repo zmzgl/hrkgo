@@ -17,7 +17,7 @@ type RoleListRequest struct {
 
 // SysRole 角色信息表
 type SysRole struct {
-	RoleId            int64      `json:"roleId" gorm:"primary_key;column:role_id;comment:角色ID"`
+	RoleId            string     `json:"roleId" gorm:"primary_key;column:role_id;comment:角色ID"`
 	RoleName          string     `json:"roleName" gorm:"column:role_name;comment:角色名称"`
 	RoleKey           string     `json:"roleKey" gorm:"column:role_key;comment:角色权限字符串"`
 	RoleSort          int        `json:"roleSort" gorm:"column:role_sort;comment:显示顺序"`

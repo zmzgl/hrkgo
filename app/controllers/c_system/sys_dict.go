@@ -71,7 +71,7 @@ func (d DictController) SelectDictDataByCode(c *gin.Context) {
 		response.BusinessFail(c, consts.SQLERROR)
 		return
 	}
-	response.Success(c, "刷新成功", dict)
+	response.Success(c, "查询成功", dict)
 }
 
 // OptionSelect 获取字典选择框列表
@@ -261,9 +261,9 @@ func (d DictController) DeleteDictDataByIds(c *gin.Context) {
 // DeleteDictDataByCodes 通过code删除字典
 func (d DictController) DeleteDictDataByCodes(c *gin.Context) {
 	// 获取路径参数
-	codes := c.Param("dictCodes") // "1,2,3,4,5"
+	codes := c.Param("dictCodes")
 	// 分割字符串为切片
-	codesStrings := strings.Split(codes, ",") // []string{"1", "2", "3", "4", "5"}
+	codesStrings := strings.Split(codes, ",")
 
 	// 转换为 int64 切片
 	codeList := make([]int64, 0, len(codesStrings))
