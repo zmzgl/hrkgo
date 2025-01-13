@@ -32,7 +32,7 @@ func (m *MenuController) TreeSelect(c *gin.Context) {
 	if err != nil {
 		response.BusinessFail(c, "查询失败，请稍后再试")
 	}
-	TreeSelect := m.MenuService.BuildMenuTreeSelect(menus)
+	TreeSelect := m.MenuService.BuildMenuTree(menus)
 	response.Success(c, "查询成功", TreeSelect)
 }
 

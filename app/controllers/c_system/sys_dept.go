@@ -8,18 +8,18 @@ import (
 )
 
 type DeptController struct {
-	DeptService sys_service.DeptCurd
+	DeptService sys_service.DeptService
 }
 
-// DeptList 部门列表
-func (d DeptController) DeptList(c *gin.Context) {
+// SelectDeptList 部门列表
+func (d DeptController) SelectDeptList(c *gin.Context) {
 	var req sys_model.DeptListRequest
 	if err := c.ShouldBindQuery(&req); err != nil {
 		response.ValidateFail(c, response.GetErrorMsg(req, err))
 		return
 	}
 
-	list, err := d.DeptService.GeDeptList(req)
+	list, err := d.DeptService.SelectDeptList(req)
 	if err != nil {
 
 	}

@@ -68,11 +68,11 @@ func (m *MenuService) DeleteMenuById(menuId string) (err error) {
 	return sys_repositories.MenuCrud.DeleteMenuById(menuId)
 }
 
-// BuildMenuTreeSelect 下拉树结构列表
-func (m *MenuService) BuildMenuTreeSelect(menus []*sys_model.SysMenu) (menuList []*sys_model.SelectMenuTree) {
-	menuTrees := buildMenuTree(menus)
-	return menuTrees
-}
+//// BuildMenuTreeSelect 下拉树结构列表
+//func (m *MenuService) BuildMenuTreeSelect(menus []*sys_model.SysMenu) (menuList []*sys_model.TreeSelect) {
+//	//menuTrees := buildMenuTree(menus)
+//	//return menuTrees
+//}
 
 // LoginSelectMenuPermsByUserId 用户权限列表
 func (m *MenuService) LoginSelectMenuPermsByUserId(userId int64) (permsSet []string) {
@@ -209,44 +209,35 @@ func (m *MenuService) BuildMenus(menus []*sys_model.MenuTree) []*sys_model.Route
 	return routers
 }
 
-// buildMenuTree 构建菜单树 - 使用 MenuTree 结构
-func buildMenuTree(menus []*sys_model.SysMenu) []*sys_model.SelectMenuTree {
-	menuMap := make(map[string]*sys_model.SelectMenuTree, len(menus))
-	var roots []*sys_model.SelectMenuTree
+// BuildMenuTree 构建菜单树 - 使用 MenuTree 结构
+func (m *MenuService) BuildMenuTree(menus []*sys_model.SysMenu) []*sys_model.TreeSelect {
+	// 创建 map 用于快速查找
+	menuMap := make(map[string]*sys_model.TreeSelect)
+	var rootNodes []*sys_model.TreeSelect
 
-	// 第一次遍历：转换为 SelectMenuTree 并建立映射关系
+	// 第一次遍历：创建所有节点
 	for _, menu := range menus {
-		tree := &sys_model.SelectMenuTree{
-			TreeSelect: &sys_model.TreeSelect{
-				Id:       menu.MenuId,
-				Label:    menu.MenuName,
-				Disabled: menu.Status == "1", // 假设状态为1时表示禁用
-			},
+		node := &sys_model.TreeSelect{
+			Id:       menu.MenuId,
+			Label:    menu.MenuName,
+			Disabled: menu.Status == "1",
 			Children: make([]*sys_model.TreeSelect, 0),
 		}
-		menuMap[menu.MenuId] = tree
+		menuMap[menu.MenuId] = node
 
-		// 如果是根节点
+		// 如果是根节点，加入 rootNodes
 		if menu.ParentId == "0" {
-			roots = append(roots, tree)
+			rootNodes = append(rootNodes, node)
+			continue
+		}
+
+		// 将当前节点添加到父节点的 children 中
+		if parent, exists := menuMap[menu.ParentId]; exists {
+			parent.Children = append(parent.Children, node)
 		}
 	}
 
-	// 第二次遍历：建立父子关系
-	for _, menu := range menus {
-		if menu.ParentId != "0" {
-			if parent, exists := menuMap[menu.ParentId]; exists {
-				childNode := &sys_model.TreeSelect{
-					Id:       menu.MenuId,
-					Label:    menu.MenuName,
-					Disabled: menu.Status == "1",
-				}
-				parent.Children = append(parent.Children, childNode)
-			}
-		}
-	}
-
-	return roots
+	return rootNodes
 }
 
 // ternary 使用辅助函数

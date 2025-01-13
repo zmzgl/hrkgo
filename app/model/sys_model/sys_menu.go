@@ -68,13 +68,14 @@ type MenuTree struct {
 	Children []*MenuTree `json:"children"`
 }
 type TreeSelect struct {
-	Id       string `json:"id"`       //节点ID
-	Label    string `json:"label"`    //节点名称
-	Disabled bool   `json:"disabled"` //boolean
-}
-
-// SelectMenuTree 定义菜单树结构
-type SelectMenuTree struct {
-	*TreeSelect
+	Id       string        `json:"id"`       //节点ID
+	Label    string        `json:"label"`    //节点名称
+	Disabled bool          `json:"disabled"` //boolean
 	Children []*TreeSelect `json:"children"`
 }
+
+//// SelectMenuTree 定义菜单树结构
+//type SelectMenuTree struct {
+//	*TreeSelect
+//
+//}

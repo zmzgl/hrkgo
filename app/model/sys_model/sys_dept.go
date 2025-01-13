@@ -12,8 +12,8 @@ type DeptListRequest struct {
 
 // Department 部门表
 type SysDept struct {
-	DeptId     int64     `gorm:"primaryKey;column:dept_id;autoIncrement" json:"deptId"`         // 部门id
-	ParentId   int64     `gorm:"column:parent_id;default:0" json:"parentId"`                    // 父部门id
+	DeptId     string    `gorm:"primaryKey;column:dept_id;autoIncrement" json:"deptId"`         // 部门id
+	ParentId   string    `gorm:"column:parent_id;default:0" json:"parentId"`                    // 父部门id
 	Ancestors  string    `gorm:"column:ancestors;type:varchar(50);default:''" json:"ancestors"` // 祖级列表
 	DeptName   string    `gorm:"column:dept_name;type:varchar(30);default:''" json:"deptName"`  // 部门名称
 	OrderNum   int       `gorm:"column:order_num;default:0" json:"orderNum"`                    // 显示顺序

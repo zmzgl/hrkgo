@@ -9,8 +9,8 @@ type deptCrud struct{}
 
 var DeptCrud = new(deptCrud)
 
-// GeDeptList 实现接口方法
-func (m *deptCrud) GeDeptList(req sys_model.DeptListRequest) ([]*sys_model.SysDept, error) {
+// SelectDeptList 实现接口方法
+func (m *deptCrud) SelectDeptList(req sys_model.DeptListRequest) ([]*sys_model.SysDept, error) {
 	query := variable.GormDbMysql.Model(&sys_model.SysDept{}).Where("del_flag = ?", "0")
 
 	// 添加查询条件
