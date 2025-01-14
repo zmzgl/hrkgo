@@ -22,17 +22,16 @@ var store base64Captcha.Store = cache_redis.CacheStore{
 func (c *CaptService) CaptMake() (id, b64s string, err error) {
 	var driver base64Captcha.Driver
 	// 配置验证码信息
-	driverString := base64Captcha.DriverString{
+	driverMath := base64Captcha.DriverMath{
 		Height:          40,
 		Width:           100,
 		NoiseCount:      0,
 		ShowLineOptions: 2 | 4,
-		Length:          4,
-		Source:          "1234567890qwertyuioplkjhgfdsazxcvbnm",
+
 		BgColor: &color.RGBA{
 			R: 3, G: 102, B: 214, A: 125}, Fonts: []string{"wqy-microhei.ttc"}}
 	//ConvertFonts 按名称加载字体
-	driver = driverString.ConvertFonts()
+	driver = driverMath.ConvertFonts()
 
 	// 实例化一个captcha结构体
 	captcha := base64Captcha.NewCaptcha(driver, store)
