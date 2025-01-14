@@ -151,21 +151,6 @@ func (d DictService) InsertDictDataValue(dict *sys_model.SysDictData) (err error
 // UpdateDictDataValue 更新字典数据
 func (d DictService) UpdateDictDataValue(dict sys_model.SysDictData) (err error) {
 
-	var count int64
-
-	err = variable.GormDbMysql.Model(&sys_model.SysDictData{}).
-		Where("(dict_label = ? OR dict_value = ?) AND dict_code != ?",
-			dict.DictLabel, dict.DictValue, dict.DictCode).
-		Count(&count).Error
-
-	if err != nil {
-		return err
-	}
-
-	if count > 0 {
-		return errors.New("已存在相同的字典标签或字典键值")
-	}
-
 	// 准备更新的数据
 	updates := map[string]interface{}{
 		"update_time": time.Now(),

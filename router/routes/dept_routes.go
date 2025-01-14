@@ -13,6 +13,7 @@ func RegisterDeptRoutes(r *gin.RouterGroup) {
 		authRouter := dept.Use(middleware.JWTAuth())
 		{
 			authRouter.Use(middleware.PermissionMiddleware("system:dept:query")).GET("/list", DeptController.SelectDeptList)
+			authRouter.Use(middleware.PermissionMiddleware("system:dept:query")).DELETE("/list", DeptController.SelectDeptList)
 		}
 	}
 }

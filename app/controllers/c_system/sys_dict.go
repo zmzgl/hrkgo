@@ -191,12 +191,7 @@ func (d DictController) UpdateDictDataValue(c *gin.Context) {
 
 	err := d.DictService.UpdateDictDataValue(dict)
 	if err != nil {
-		switch err.Error() {
-		case "已存在相同的字典标签或字典键值":
-			response.BusinessFail(c, "已存在相同的字典标签或字典键值,请修改后重试")
-		default:
-			response.BusinessFail(c, "修改失败,请重试")
-		}
+		response.BusinessFail(c, "修改失败,请重试")
 		return
 	}
 	response.SuccessNil(c, "修改成功")
