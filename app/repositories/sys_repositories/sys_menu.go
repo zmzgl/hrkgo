@@ -14,10 +14,21 @@ type menuCrud struct{}
 var MenuCrud = new(menuCrud)
 
 // SelectMenuList 获取菜单列表
-func (m *menuCrud) SelectMenuList() ([]*sys_model.SysMenu, error) {
+func (m *menuCrud) SelectMenuList(menu sys_model.SysMenu) ([]*sys_model.SysMenu, error) {
 	var menuList []*sys_model.SysMenu
-	err := variable.GormDbMysql.Model(&sys_model.SysMenu{}).Order("order_num asc").Find(&menuList).Error
+	query := variable.GormDbMysql.Model(&sys_model.SysMenu{})
+	// 构建查询条件
+	if menu.MenuName != "" {
+		query = query.Where("menu_name LIKE ?", "%"+menu.MenuName+"%")
+	}
+	if menu.Status != "" {
+		query = query.Where("status = ?", menu.Status)
+	}
+
+	// 添加排序
+	err := query.Order("parent_id, order_num").Find(&menuList).Error
 	return menuList, err
+
 }
 
 // SelectMenuById 通过id查询菜单
@@ -137,7 +148,7 @@ func (m *menuCrud) GetMenuTreeAll() ([]*sys_model.SysMenu, error) {
 }
 
 // SelectMenuPermsByUserId 查询所有树状图
-func (m *menuCrud) SelectMenuPermsByUserId(userId int64) ([]string, error) {
+func (m *menuCrud) SelectMenuPermsByUserId(userId string) ([]string, error) {
 	var perms []string
 
 	err := variable.GormDbMysql.Model(&sys_model.SysMenu{}).

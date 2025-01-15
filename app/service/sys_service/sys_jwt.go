@@ -13,7 +13,7 @@ import (
 var Secret = []byte(variable.ConfigYml.GetString("token.secret"))
 
 type CustomClaims struct {
-	UserID uint `json:"user_id"`
+	UserID string `json:"user_id"`
 	jwt.RegisteredClaims
 	TokenId string
 }
@@ -28,7 +28,7 @@ type JwtService struct {
 func (r JwtService) GenerateTokenWithCustomClaims(userData sys_model.TokenData) (string, error) {
 	tokenId := uuid.NewString()
 	claims := CustomClaims{
-		UserID: uint(userData.User.UserId),
+		UserID: userData.User.UserId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(variable.ConfigYml.GetInt("token.expireTime")) * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

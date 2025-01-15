@@ -12,10 +12,10 @@ type MenuService struct {
 }
 
 // SelectMenuList 获取菜单下拉树列表
-func (m *MenuService) SelectMenuList(userId uint64) (menuList []*sys_model.SysMenu, err error) {
+func (m *MenuService) SelectMenuList(menu sys_model.SysMenu, userId string) (menuList []*sys_model.SysMenu, err error) {
 	// 管理员显示所有菜单信息
-	if sys_model.IsAdmin(int64(userId)) {
-		menuList, err = sys_repositories.MenuCrud.SelectMenuList()
+	if sys_model.IsAdmin(userId) {
+		menuList, err = sys_repositories.MenuCrud.SelectMenuList(menu)
 	}
 	return menuList, err
 }
@@ -75,7 +75,7 @@ func (m *MenuService) DeleteMenuById(menuId string) (err error) {
 //}
 
 // LoginSelectMenuPermsByUserId 用户权限列表
-func (m *MenuService) LoginSelectMenuPermsByUserId(userId int64) (permsSet []string) {
+func (m *MenuService) LoginSelectMenuPermsByUserId(userId string) (permsSet []string) {
 	// 管理员拥有所有权限
 	if sys_model.IsAdmin(userId) {
 		permsSet = append(permsSet, "*:*:*")

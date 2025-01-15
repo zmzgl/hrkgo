@@ -12,7 +12,11 @@ func RegisterUserRoutes(r *gin.RouterGroup) {
 	{
 		authRouter := user.Use(middleware.JWTAuth())
 		{
-			authRouter.GET("/deptTree", UserController.DeptTree)
+			authRouter.Use(middleware.PermissionMiddleware("system:user:list")).GET("/deptTree", UserController.DeptTree)
+			authRouter.Use(middleware.PermissionMiddleware("system:user:list")).GET("/list", UserController.SelectUserList)
+			authRouter.Use(middleware.PermissionMiddleware("system:user:add")).POST("", UserController.InsertUser)
+			authRouter.Use(middleware.PermissionMiddleware("system:user:resetPwd")).PUT("/list", UserController.ResetPwd)
+
 		}
 	}
 }

@@ -119,7 +119,7 @@ func (l *Controller) WxLogin(c *gin.Context) {
 	if user, err := l.loginService.GetOpenIdUser(wxResp.OpenID); err != nil {
 		response.BusinessFail(c, err.Error())
 	} else {
-		if user.UserId == 0 {
+		if user.UserId == "0" {
 			response.Success(c, "操作成功", nil)
 			return
 		}

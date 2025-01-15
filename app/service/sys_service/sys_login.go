@@ -44,7 +44,7 @@ func (u *LoginService) Login(params sys_model.Login) (user *sys_model.SysUser, e
 }
 
 // getMenuPermission 菜单权限信息
-func (u *LoginService) getMenuPermission(userId int64) (perms []string) {
+func (u *LoginService) getMenuPermission(userId string) (perms []string) {
 	if sys_model.IsAdmin(userId) {
 		perms = append(perms, "*:*:*")
 	}
@@ -64,7 +64,7 @@ func (u *LoginService) GetOpenIdUser(openId string) (user *sys_model.SysUser, er
 }
 
 // GetUserInfo 获取用户信息
-func (u *LoginService) GetUserInfo(id int64) (user *sys_model.SysUserInfo, err error) {
+func (u *LoginService) GetUserInfo(id string) (user *sys_model.SysUserInfo, err error) {
 	err = variable.GormDbMysql.Preload("Dept").Preload("Roles").Where("user_id = ? and del_flag = 0", id).First(&user).Error
 	return user, err
 }

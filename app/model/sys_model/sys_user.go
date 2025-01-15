@@ -2,10 +2,22 @@ package sys_model
 
 import "time"
 
+// UserListRequest 用户列表请求参数
+type UserListRequest struct {
+	UserName    string `form:"userName"`
+	Phonenumber string `form:"phonenumber" `
+	DeptId      string `form:"deptId"`
+	Status      string `form:"status"`
+	BeginTime   string `form:"params[beginTime]"` // 使用 form 标签接收嵌套字段
+	EndTime     string `form:"params[endTime]"`   // 使用 form 标签接收嵌套字段
+	PageNum     int    `form:"pageNum"`
+	PageSize    int    `form:"pageSize"`
+}
+
 // SysUser 用户信息表
 type SysUser struct {
-	UserId      int64     `json:"userId" gorm:"primary_key;column:user_id;auto_increment;comment:'用户ID'"`
-	DeptId      int64     `json:"deptId" gorm:"column:dept_id;comment:'部门ID'"`
+	UserId      string    `json:"userId" gorm:"primary_key;column:user_id;auto_increment;comment:'用户ID'"`
+	DeptId      string    `json:"deptId" gorm:"column:dept_id;comment:'部门ID'"`
 	OpenId      string    `json:"OpenId" gorm:"column:open_id;comment:'微信openid'"`
 	UserName    string    `json:"userName" gorm:"column:user_name;not null;comment:'用户账号'"`
 	NickName    string    `json:"nickName" gorm:"column:nick_name;not null;comment:'用户昵称'"`
@@ -31,10 +43,10 @@ func (SysUser) TableName() string {
 	return "sys_user"
 }
 
-// SysUser 用户信息表
+// SysUserInfo 用户信息表
 type SysUserInfo struct {
-	UserId      int64     `json:"userId" gorm:"primary_key;column:user_id;auto_increment;comment:'用户ID'"`
-	DeptId      int64     `json:"deptId" gorm:"column:dept_id;comment:'部门ID'"`
+	UserId      string    `json:"userId" gorm:"primary_key;column:user_id;auto_increment;comment:'用户ID'"`
+	DeptId      string    `json:"deptId" gorm:"column:dept_id;comment:'部门ID'"`
 	UserName    string    `json:"userName" gorm:"column:user_name;not null;comment:'用户账号'"`
 	NickName    string    `json:"nickName" gorm:"column:nick_name;not null;comment:'用户昵称'"`
 	UserType    string    `json:"userType" gorm:"column:user_type;default:'00';comment:'用户类型（00系统用户）'"`
@@ -62,8 +74,8 @@ func (SysUserInfo) TableName() string {
 }
 
 // IsAdmin 判断是不是超管
-func IsAdmin(userID int64) bool {
-	return userID == 1
+func IsAdmin(userID string) bool {
+	return userID == "1"
 }
 
 type TokenData struct {

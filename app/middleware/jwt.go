@@ -48,7 +48,7 @@ func JWTAuth() gin.HandlerFunc {
 // PermissionMiddleware 权限控制中间件
 func PermissionMiddleware(requiredPermission string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if sys_model.IsAdmin(int64(c.Keys["userId"].(uint))) {
+		if sys_model.IsAdmin(c.Keys["userId"].(string)) {
 			c.Next()
 			return
 		}

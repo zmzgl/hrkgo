@@ -28,7 +28,8 @@ func (m *MenuController) GetRouters(c *gin.Context) {
 
 // TreeSelect 菜单下拉列表
 func (m *MenuController) TreeSelect(c *gin.Context) {
-	menus, err := m.MenuService.SelectMenuList(uint64(c.Keys["userId"].(uint)))
+	var menu sys_model.SysMenu
+	menus, err := m.MenuService.SelectMenuList(menu, c.Keys["userId"].(string))
 	if err != nil {
 		response.BusinessFail(c, "查询失败，请稍后再试")
 	}
@@ -38,7 +39,14 @@ func (m *MenuController) TreeSelect(c *gin.Context) {
 
 // SelectMenuList 查询系统菜单列表
 func (m *MenuController) SelectMenuList(c *gin.Context) {
-	menus, err := m.MenuService.SelectMenuList(uint64(c.Keys["userId"].(uint)))
+
+	var menu sys_model.SysMenu
+	if err := c.ShouldBindQuery(&menu); err != nil {
+		response.ValidateFail(c, response.GetErrorMsg(menu, err))
+		return
+	}
+
+	menus, err := m.MenuService.SelectMenuList(menu, c.Keys["userId"].(string))
 	if err != nil {
 		response.BusinessFail(c, "查询失败，请稍后再试")
 	}
@@ -94,7 +102,7 @@ func (m *MenuController) InsertMenu(c *gin.Context) {
 		Status:     form.Status,
 		Visible:    form.Visible,
 		CreateTime: &now,
-		CreateBy:   strconv.FormatUint(uint64(c.Keys["userId"].(uint)), 10),
+		CreateBy:   c.Keys["userId"].(string),
 	}
 
 	err := m.MenuService.InsertMenu(menu)
