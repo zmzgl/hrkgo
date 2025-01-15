@@ -13,7 +13,7 @@ type DeptController struct {
 
 // SelectDeptList 部门列表
 func (d DeptController) SelectDeptList(c *gin.Context) {
-	var req sys_model.DeptListRequest
+	var req sys_model.SysDept
 	if err := c.ShouldBindQuery(&req); err != nil {
 		response.ValidateFail(c, response.GetErrorMsg(req, err))
 		return

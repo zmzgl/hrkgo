@@ -14,7 +14,7 @@ type UserController struct {
 
 // DeptTree 部门列表
 func (d UserController) DeptTree(c *gin.Context) {
-	var req sys_model.DeptListRequest
+	var req sys_model.SysDept
 	depts, err := d.DeptService.SelectDeptList(req)
 	if err != nil {
 		response.BusinessFail(c, "查询失败，请稍后再试")
@@ -50,7 +50,7 @@ func (d UserController) InsertUser(c *gin.Context) {
 
 	err := d.UserService.InsertUser(req)
 	if err != nil {
-		
+
 	}
 	response.SuccessNil(c, "操作成功")
 

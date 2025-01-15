@@ -9,7 +9,7 @@ type DeptService struct {
 }
 
 // SelectDeptList 获取部门树
-func (u *DeptService) SelectDeptList(req sys_model.DeptListRequest) ([]*sys_model.SysDept, error) {
+func (u *DeptService) SelectDeptList(req sys_model.SysDept) ([]*sys_model.SysDept, error) {
 	depts, err := sys_repositories.DeptCrud.SelectDeptList(req)
 	return depts, err
 }
