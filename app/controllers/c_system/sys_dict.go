@@ -102,7 +102,7 @@ func (d DictController) InsertDictData(c *gin.Context) {
 		DictType:   form.DictType,
 		Status:     form.Status,
 		Remark:     form.Remark,
-		CreateBy:   strconv.FormatUint(uint64(c.Keys["userId"].(uint)), 10),
+		CreateBy:   c.Keys["userId"].(string),
 		CreateTime: &now,
 		UpdateBy:   "",
 		UpdateTime: nil,
@@ -143,7 +143,7 @@ func (d DictController) InsertDictDataValue(c *gin.Context) {
 		DictValue:  form.DictValue,
 		Remark:     form.Remark,
 		ListClass:  form.ListClass,
-		CreateBy:   strconv.FormatUint(uint64(c.Keys["userId"].(uint)), 10),
+		CreateBy:   c.Keys["userId"].(string),
 		CreateTime: &now,
 		UpdateBy:   "",
 		UpdateTime: nil,
@@ -185,7 +185,7 @@ func (d DictController) UpdateDictDataValue(c *gin.Context) {
 		ListClass:  form.ListClass,
 		CreateBy:   "",
 		CreateTime: nil,
-		UpdateBy:   strconv.FormatUint(uint64(c.Keys["userId"].(uint)), 10),
+		UpdateBy:   c.Keys["userId"].(string),
 		UpdateTime: &now,
 	}
 
@@ -216,7 +216,7 @@ func (d DictController) UpdateDictData(c *gin.Context) {
 		Remark:     form.Remark,
 		CreateBy:   "",
 		CreateTime: nil,
-		UpdateBy:   strconv.FormatUint(uint64(c.Keys["userId"].(uint)), 10),
+		UpdateBy:   c.Keys["userId"].(string),
 		UpdateTime: &now,
 	}
 
