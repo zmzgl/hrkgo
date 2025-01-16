@@ -1,6 +1,7 @@
 package sys_model
 
 import (
+	"hrkGo/app/model"
 	"time"
 )
 
@@ -11,8 +12,7 @@ type RoleListRequest struct {
 	RoleKey   string `form:"roleKey"`
 	BeginTime string `form:"params[beginTime]"` // 使用 form 标签接收嵌套字段
 	EndTime   string `form:"params[endTime]"`   // 使用 form 标签接收嵌套字段
-	PageNum   int    `form:"pageNum"`
-	PageSize  int    `form:"pageSize"`
+	model.PageInfo
 }
 
 // SysRole 角色信息表
