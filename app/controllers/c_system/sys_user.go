@@ -58,21 +58,21 @@ func (d UserController) InsertUser(c *gin.Context) {
 
 // ResetPwd 修改密码
 func (d UserController) ResetPwd(c *gin.Context) {
-	//var req sys_model.SysUser
-	//if err := c.ShouldBindQuery(&req); err != nil {
-	//	response.ValidateFail(c, response.GetErrorMsg(req, err))
-	//	return
-	//}
-	//
-	//if sys_model.IsAdmin(c.Keys["userId"].(string)) {
-	//	response.BusinessFail(c, "不允许操作超级管理员用户")
-	//	return
-	//}
-	//
-	//list, total, err := d.UserService.ResetPwd(req)
-	//if err != nil {
-	//
-	//}
-	//response.SuccessRow(c, "查询成功", list, total)
+	var req sys_model.SysUser
+	if err := c.ShouldBindQuery(&req); err != nil {
+		response.ValidateFail(c, response.GetErrorMsg(req, err))
+		return
+	}
+
+	if sys_model.IsAdmin(req.UserId) {
+		response.BusinessFail(c, "不允许操作超级管理员用户")
+		return
+	}
+
+	err := d.UserService.ResetPwd(req)
+	if err != nil {
+
+	}
+	response.SuccessNil(c, "操作成功")
 
 }

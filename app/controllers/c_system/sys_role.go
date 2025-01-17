@@ -13,11 +13,11 @@ type RoleController struct {
 
 func (r *RoleController) GetRoleList(c *gin.Context) {
 	var req sys_model.RoleListRequest
+
 	if err := c.ShouldBindQuery(&req); err != nil {
 		response.ValidateFail(c, response.GetErrorMsg(req, err))
 		return
 	}
-
 	list, total, err := r.RoleService.GetRoleList(req)
 	if err != nil {
 

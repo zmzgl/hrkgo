@@ -4,8 +4,8 @@ import "hrkGo/utils/response"
 
 // PageInfo Paging common input parameter structure
 type PageInfo struct {
-	PageNum  int `form:"pageNum" binding:"required"`
-	PageSize int `form:"pageSize" binding:"required"`
+	PageNum  int `json:"pageNum" form:"pageNum" binding:"required"`
+	PageSize int `json:"pageSize" form:"pageSize" binding:"required"`
 }
 
 func (pageInfo PageInfo) GetMessages() response.ValidatorMessages {

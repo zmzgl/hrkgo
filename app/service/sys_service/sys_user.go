@@ -15,9 +15,8 @@ func (u *UserService) SelectUserList(req sys_model.UserListRequest) (users []sys
 }
 
 // ResetPwd 修改密码
-func (u *UserService) ResetPwd(req sys_model.SysUser) {
-	//users, total, err = sys_repositories.UserCrud.SelectUserList(req)
-	//return users, total, err
+func (u *UserService) ResetPwd(req sys_model.SysUser) (err error) {
+	return nil
 }
 
 // InsertUser 修改密码

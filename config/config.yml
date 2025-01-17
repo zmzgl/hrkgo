@@ -23,10 +23,18 @@ token:
   # 令牌有效期（默认30分钟）
   expireTime: 300
 
+# wechat 微信授权
 wechat:
   MiniProgram:
     appid: ""
     secret: ""
+
+# smtp 邮件服务器
+smtp:
+  host : "smtp.163.com"
+  port : 25
+  userName : "******@qq.com"
+  password : "**********"
 
 Logs:
   GinLogName: "/storage/logs/gin.log"                  #设置 gin 框架的接口访问日志
