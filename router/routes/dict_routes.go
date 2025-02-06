@@ -10,9 +10,9 @@ func RegisterDictRoutes(r *gin.RouterGroup) {
 
 	DictController := c_system.DictController{}
 
-	role := r.Group("/dict")
+	dict := r.Group("/dict")
 	{
-		authRouter := role.Use(middleware.JWTAuth())
+		authRouter := dict.Use(middleware.JWTAuth())
 		{
 			authRouter.GET("/type/list", DictController.DictList)
 			authRouter.GET("/type/:dictId", DictController.SelectDictDataById)

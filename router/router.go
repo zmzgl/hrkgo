@@ -40,6 +40,7 @@ func InitRouter() *gin.Engine {
 	routes.RegisterDictRoutes(system)
 	routes.RegisterUserRoutes(system)
 	routes.RegisterMenuRoutes(system)
+	routes.RegisterPostRoutes(system)
 
 	// 初始化字典
 

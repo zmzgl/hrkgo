@@ -8,9 +8,9 @@ import (
 
 func RegisterMenuRoutes(r *gin.RouterGroup) {
 	MenuController := c_system.MenuController{}
-	user := r.Group("/menu")
+	menu := r.Group("/menu")
 	{
-		authRouter := user.Use(middleware.JWTAuth())
+		authRouter := menu.Use(middleware.JWTAuth())
 		{
 			authRouter.GET("/treeselect", MenuController.TreeSelect)
 			authRouter.Use(middleware.PermissionMiddleware("system:menu:query")).GET("/list", MenuController.SelectMenuList)
