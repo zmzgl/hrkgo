@@ -2,6 +2,7 @@ package c_system
 
 import (
 	"github.com/gin-gonic/gin"
+	"hrkGo/app/middleware"
 	"hrkGo/app/model/sys_model"
 	"hrkGo/app/service/sys_service"
 	"hrkGo/utils/response"
@@ -14,8 +15,8 @@ type UserController struct {
 
 // DeptTree 部门列表
 func (d UserController) DeptTree(c *gin.Context) {
-	var req sys_model.SysDept
-	depts, err := d.DeptService.SelectDeptList(req)
+	var req sys_model.DeptListRequest
+	depts, err := d.DeptService.SelectDeptList(req, middleware.DataScopeMiddleware(c.MustGet("User"), "d", "u"))
 	if err != nil {
 		response.BusinessFail(c, "查询失败，请稍后再试")
 	}

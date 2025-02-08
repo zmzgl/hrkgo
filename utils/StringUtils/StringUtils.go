@@ -57,9 +57,9 @@ func IsHttp(link string) bool {
 	return strings.HasPrefix(link, "http://") || strings.HasPrefix(link, "https://")
 }
 
-// IsNotEmpty 判断数组为空
+// IsNotEmpty 正确的写法
 func IsNotEmpty[T any](arr []T) bool {
-	return arr != nil || len(arr) != 0
+	return arr != nil && len(arr) > 0 // 使用 AND 操作符
 }
 
 // IsEmptyStr 判断字符串为空的函数

@@ -11,9 +11,11 @@ func RegisterDeptRoutes(r *gin.RouterGroup) {
 	dept := r.Group("/dept")
 	{
 		authRouter := dept.Use(middleware.JWTAuth())
+		//.Use(middleware.DataScopeMiddleware())
 		{
+
 			authRouter.Use(middleware.PermissionMiddleware("system:dept:query")).GET("/list", DeptController.SelectDeptList)
-			authRouter.Use(middleware.PermissionMiddleware("system:dept:query")).DELETE("/list", DeptController.SelectDeptList)
+			authRouter.Use(middleware.PermissionMiddleware("system:dept:remove")).DELETE("/:deptId", DeptController.DeleteDeptById)
 		}
 	}
 }

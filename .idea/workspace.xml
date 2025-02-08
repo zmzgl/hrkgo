@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33f91536-20fd-492f-92ff-ebdfbe48d979" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/c_system/sys_post.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/model/sys_model/sys_post.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/repositories/sys_repositories/sys_post.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/service/sys_service/sys_post.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/router/routes/post_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/routes/dict_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/routes/dict_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/routes/menu_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/routes/menu_routes.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/middleware/data_scope.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/c_system/sys_dept.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/c_system/sys_dept.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/c_system/sys_user.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/c_system/sys_user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/middleware/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/sys_model/sys_dept.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/sys_model/sys_dept.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/sys_repositories/sys_dept.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/sys_repositories/sys_dept.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/service/sys_service/sys_dept.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/service/sys_service/sys_dept.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/routes/dept_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/routes/dept_routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/StringUtils/StringUtils.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/StringUtils/StringUtils.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +52,7 @@
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/go/hrkgo/app/repositories/sys_repositories&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/go/hrkgo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,

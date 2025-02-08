@@ -4,6 +4,14 @@ import (
 	"time"
 )
 
+// DeptListRequest 角色列表请求参数
+type DeptListRequest struct {
+	DeptId   string `form:"deptId"`
+	ParentId string `form:"parentId" `
+	DeptName string `form:"deptName"`
+	Status   string `form:"status"` // 使用 form 标签接收嵌套字段
+}
+
 // SysDept 部门表
 type SysDept struct {
 	DeptId     string    `gorm:"primaryKey;column:dept_id;autoIncrement" json:"deptId"`                        // 部门id

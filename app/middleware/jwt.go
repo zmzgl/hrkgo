@@ -48,12 +48,15 @@ func JWTAuth() gin.HandlerFunc {
 // PermissionMiddleware 权限控制中间件
 func PermissionMiddleware(requiredPermission string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		// 从 Redis 获取该用户的权限
+		permissions := sys_service.GetUserData(c.Keys["tokenId"].(string))
+		c.Set("User", permissions.User)
 		if sys_model.IsAdmin(c.Keys["userId"].(string)) {
 			c.Next()
 			return
 		}
-		// 从 Redis 获取该用户的权限
-		permissions := sys_service.GetUserData(c.Keys["tokenId"].(string))
+
 		exists := contains(permissions.Perms, requiredPermission) // 返回 true
 
 		if !exists {
