@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 13/01/2025 14:32:49
+ Date: 11/02/2025 15:31:29
 */
 
 SET NAMES utf8mb4;
@@ -210,7 +210,7 @@ INSERT INTO `sys_dict_data` VALUES ('24', 6, '导入', '6', 'sys_oper_type', '',
 INSERT INTO `sys_dict_data` VALUES ('25', 7, '强退', '7', 'sys_oper_type', '', 'danger', 'N', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '强退操作');
 INSERT INTO `sys_dict_data` VALUES ('26', 8, '生成代码', '8', 'sys_oper_type', '', 'warning', 'N', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '生成操作');
 INSERT INTO `sys_dict_data` VALUES ('27', 9, '清空数据', '9', 'sys_oper_type', '', 'danger', 'N', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '清空操作');
-INSERT INTO `sys_dict_data` VALUES ('28', 1, '成功', '0', 'sys_common_status', '', 'primary', 'N', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '正常状态');
+INSERT INTO `sys_dict_data` VALUES ('28', 1, '成功', '0', 'sys_common_status', '', 'primary', 'N', '0', 'admin', '2024-03-21 13:19:00', '1', '2025-01-14 09:20:51', '正常状态');
 INSERT INTO `sys_dict_data` VALUES ('29', 2, '失败', '1', 'sys_common_status', '', 'danger', 'N', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '停用状态');
 INSERT INTO `sys_dict_data` VALUES ('3', 3, '未知', '2', 'sys_user_sex', '', '', 'N', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '性别未知');
 INSERT INTO `sys_dict_data` VALUES ('4', 1, '显示', '0', 'sys_show_hide', '', 'primary', 'Y', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '显示菜单');
@@ -244,7 +244,7 @@ CREATE TABLE `sys_dict_type`  (
 INSERT INTO `sys_dict_type` VALUES ('1', '用户性别', 'sys_user_sex', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '用户性别列表');
 INSERT INTO `sys_dict_type` VALUES ('10', '系统状态', 'sys_common_status', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '登录状态列表');
 INSERT INTO `sys_dict_type` VALUES ('2', '菜单状态', 'sys_show_hide', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '菜单状态列表');
-INSERT INTO `sys_dict_type` VALUES ('3', '系统开关', 'sys_normal_disable', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '系统开关列表');
+INSERT INTO `sys_dict_type` VALUES ('3', '系统开关', 'sys_normal_disable', '0', 'admin', '2024-03-21 13:19:00', '1', '2025-01-14 09:12:05', '系统开关列表');
 INSERT INTO `sys_dict_type` VALUES ('4', '任务状态', 'sys_job_status', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '任务状态列表');
 INSERT INTO `sys_dict_type` VALUES ('5', '任务分组', 'sys_job_group', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '任务分组列表');
 INSERT INTO `sys_dict_type` VALUES ('6', '系统是否', 'sys_yes_no', '0', 'admin', '2024-03-21 13:19:00', '', NULL, '系统是否列表');
@@ -520,7 +520,7 @@ INSERT INTO `sys_menu` VALUES ('106', '参数设置', '1', 7, 'config', 'system/
 INSERT INTO `sys_menu` VALUES ('1060', '生成代码', '116', 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '', 'admin', '2024-03-21 13:19:00', '', NULL, '');
 INSERT INTO `sys_menu` VALUES ('107', '通知公告', '1', 8, 'notice', 'system/notice/index', '', 1, 0, 'C', '0', '0', 'system:notice:list', 'iconfont icon-zujian', 'admin', '2024-03-21 13:19:00', 'admin', '2024-04-01 17:04:08', '通知公告菜单');
 INSERT INTO `sys_menu` VALUES ('108', '日志管理', '1', 9, 'log', '', '', 1, 0, 'M', '0', '0', '', 'iconfont icon-ico_shuju', 'admin', '2024-03-21 13:19:00', 'admin', '2024-04-01 22:15:35', '日志管理菜单');
-INSERT INTO `sys_menu` VALUES ('109', '在线用户', '2', 1, 'online', 'monitor/online/index', '', 1, 0, 'C', '0', '0', 'monitor:online:list', 'iconfont icon-putong', 'admin', '2024-03-21 13:19:00', '1', '2025-01-09 10:58:48', '在线用户菜单');
+INSERT INTO `sys_menu` VALUES ('109', '在线用户', '2', 1, 'online', 'monitor/online/index', '', 1, 0, 'C', '0', '0', 'monitor:online:list', 'iconfont icon-putong', 'admin', '2024-03-21 13:19:00', '1', '2025-01-14 09:11:59', '在线用户菜单');
 INSERT INTO `sys_menu` VALUES ('110', '定时任务', '2', 2, 'job', 'monitor/job/index', '', 1, 0, 'C', '0', '0', 'monitor:job:list', 'iconfont icon-tongzhi3', 'admin', '2024-03-21 13:19:00', 'admin', '2024-03-21 13:37:28', '定时任务菜单');
 INSERT INTO `sys_menu` VALUES ('111', '数据监控', '2', 3, 'druid', 'monitor/druid/index', '', 1, 0, 'C', '0', '0', 'monitor:druid:list', 'iconfont icon-728bianjiqi_zitidaxiao', 'admin', '2024-03-21 13:19:00', 'admin', '2024-03-21 13:37:32', '数据监控菜单');
 INSERT INTO `sys_menu` VALUES ('112', '服务监控', '2', 4, 'server', 'monitor/server/index', '', 1, 0, 'C', '0', '0', 'monitor:server:list', 'iconfont icon-15tupianyulan', 'admin', '2024-03-21 13:19:00', 'admin', '2024-03-21 13:37:37', '服务监控菜单');
@@ -689,17 +689,18 @@ INSERT INTO `sys_role` VALUES (2, '普通角色', 'common', 2, '2', 1, 1, '0', '
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_dept`;
 CREATE TABLE `sys_role_dept`  (
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
+  `role_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色ID',
+  `dept_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门ID',
   PRIMARY KEY (`role_id`, `dept_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色和部门关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_dept
 -- ----------------------------
-INSERT INTO `sys_role_dept` VALUES (2, 100);
-INSERT INTO `sys_role_dept` VALUES (2, 101);
-INSERT INTO `sys_role_dept` VALUES (2, 105);
+INSERT INTO `sys_role_dept` VALUES ('2', '100');
+INSERT INTO `sys_role_dept` VALUES ('2', '101');
+INSERT INTO `sys_role_dept` VALUES ('2', '105');
+INSERT INTO `sys_role_dept` VALUES ('2', '123');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -805,8 +806,8 @@ INSERT INTO `sys_role_menu` VALUES (2, 1060);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
+  `user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户ID',
+  `dept_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门ID',
   `open_id` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '微信小程序id',
   `user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户账号',
   `nick_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户昵称',
@@ -826,13 +827,13 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, '', 'admin', '北城南笙', '00', 'ry@163.com', '15888888888', '1', '', '$2a$04$3j32uNKkBp5HpOQLejmSXeYf3BLGA1.2HBB2Or9Nc3z.opbSmiefi', '0', '0', '127.0.0.1', '2024-11-04 15:47:50', 'admin', '2024-03-21 13:19:00', '', '2024-11-04 15:47:50', '管理员');
-INSERT INTO `sys_user` VALUES (2, 105, NULL, 'ry', '北城南笙', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-03-21 13:19:00', 'admin', '2024-03-21 13:19:00', 'admin', '2024-04-01 18:17:23', '测试员');
+INSERT INTO `sys_user` VALUES ('1', '103', '', 'admin', '北城南笙', '00', 'ry@163.com', '15888888888', '1', '', '$2a$04$3j32uNKkBp5HpOQLejmSXeYf3BLGA1.2HBB2Or9Nc3z.opbSmiefi', '0', '0', '127.0.0.1', '2024-11-04 15:47:50', 'admin', '2024-03-21 13:19:00', '', '2024-11-04 15:47:50', '管理员');
+INSERT INTO `sys_user` VALUES ('2', '105', NULL, 'ry', '北城南笙', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$04$3j32uNKkBp5HpOQLejmSXeYf3BLGA1.2HBB2Or9Nc3z.opbSmiefi', '0', '0', '127.0.0.1', '2024-03-21 13:19:00', 'admin', '2024-03-21 13:19:00', 'admin', '2024-04-01 18:17:23', '测试员');
 
 -- ----------------------------
 -- Table structure for sys_user_post
